@@ -15,7 +15,7 @@
     
     <style>
         :root {
-            /* النمط الأبيض (الافتراضي) - باللون الذهبي الملكي بدلاً من الأصفر الفاقع */
+            /* النمط الأبيض (الافتراضي) - باللون الذهبي الملكي */
             --bg-primary: #ffffff;
             --bg-card: #fafafa;
             --bg-nav: rgba(255, 255, 255, 0.96);
@@ -28,6 +28,7 @@
             --border-color: rgba(197, 155, 39, 0.35);
             --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             --card-shadow: 0 6px 20px rgba(197, 155, 39, 0.18);
+            --pattern-opacity: 0.03;
         }
 
         .dark {
@@ -44,6 +45,7 @@
             --border-color: rgba(212, 175, 55, 0.25);
             --shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
             --card-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
+            --pattern-opacity: 0.05;
         }
 
         * {
@@ -63,6 +65,21 @@
             color: var(--text-main);
             padding-bottom: 90px;
             min-height: 100vh;
+            position: relative;
+        }
+
+        /* 1. خلفية زخرفية ناعمة (Subtle Pattern) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C59B27' fill-opacity='1'%3E%3Cpath d='M0 0h80v80H0V0zm40 40l20 20H20l20-20zm0 0L20 20h40L40 40zm0 0l20-20v40L40 40zm0 0L20 60V20l20 20z'/%3E%3C/g%3E%3C/svg%3E");
+            opacity: var(--pattern-opacity);
+            z-index: -1;
+            pointer-events: none;
         }
 
         header {
@@ -319,6 +336,7 @@
             }
         }
 
+        /* 3. بطاقات الأطباق الهوائية (Hover Card Effects) */
         .dish-card {
             background: var(--bg-card);
             border: 1.5px solid var(--border-color);
@@ -327,17 +345,47 @@
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
+            cursor: pointer;
         }
 
         .dish-card:hover {
-            box-shadow: var(--card-shadow);
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px var(--accent-glow);
             border-color: var(--accent-color);
+        }
+
+        .dish-img-wrap {
+            position: relative;
+            overflow: hidden;
         }
 
         .dish-img {
             width: 100%;
             height: 115px;
             object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .dish-card:hover .dish-img {
+            transform: scale(1.05);
+        }
+
+        .img-overlay-icon {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            backdrop-filter: blur(4px);
+            opacity: 0.8;
         }
 
         .dish-details {
@@ -496,14 +544,15 @@
             box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
         }
 
+        /* Modal Overlay العام */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
             z-index: 1000;
             display: none;
             align-items: center;
@@ -543,6 +592,41 @@
             color: var(--text-muted);
             font-size: 22px;
             cursor: pointer;
+        }
+
+        /* 2. نافذة تكبير الصورة (Image Lightbox Modal) */
+        .lightbox-card {
+            text-align: center;
+        }
+
+        .lightbox-img {
+            width: 100%;
+            max-height: 240px;
+            object-fit: cover;
+            border-radius: 14px;
+            border: 1.5px solid var(--border-color);
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .lightbox-title {
+            font-size: 1.1rem;
+            font-weight: 900;
+            margin-bottom: 6px;
+        }
+
+        .lightbox-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .lightbox-price {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--accent-color);
+            margin-bottom: 15px;
         }
 
         .order-summary-item {
@@ -690,6 +774,21 @@
         </button>
     </div>
 
+    <!-- 2. نافذة تكبير صورة الطبق (Lightbox Modal) -->
+    <div class="modal-overlay" id="lightboxModal">
+        <div class="modal-content lightbox-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-circle-info"></i> تفاصيل الطبق</h3>
+                <button class="close-modal" onclick="closeLightbox()">&times;</button>
+            </div>
+            <img id="lightboxImg" src="" alt="صورة الطبق" class="lightbox-img">
+            <div id="lightboxTitle" class="lightbox-title"></div>
+            <div id="lightboxDesc" class="lightbox-desc"></div>
+            <div id="lightboxPrice" class="lightbox-price"></div>
+            <div id="lightboxAction"></div>
+        </div>
+    </div>
+
     <!-- نافذة تأكيد الطلب المودال -->
     <div class="modal-overlay" id="orderModal">
         <div class="modal-content">
@@ -753,50 +852,34 @@
             { id: "drinks", title: "قسم المشروبات", icon: "fa-glass-water" }
         ];
 
-        // قائمة معززة وموسعة بالأطباق لكل قسم
         let menuData = [
             // --- المشويات ---
-            { id: 1, name: "كباب عراقي فاخر", category: "grills", price: 14000, desc: "لحم غنم بلدي مع الخضار المشوية والخبز الحار", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80" },
-            { id: 2, name: "تكه لحم غنم", category: "grills", price: 16000, desc: "قطع لحم الغنم الطرية المشوية على الفحم", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80" },
-            { id: 3, name: "شيش طاووق دجاج", category: "grills", price: 12000, desc: "صدور دجاج متبلة بالخلطة الخاصة ومشوّية", img: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=500&q=80" },
-            { id: 4, name: "مشكل سمسمه الخاص", category: "grills", price: 25000, desc: "تشكيلة من الكباب، التكه، الطاووق مع المقبلات", img: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=500&q=80" },
-            { id: 5, name: "كباب دجاج بالفرن", category: "grills", price: 11000, desc: "شيش كباب دجاج مفروم طازج مع البهارات المشكلة", img: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&q=80" },
-            { id: 6, name: "ريش غنم مشوية", category: "grills", price: 18000, desc: "أضلاع الغنم التندر المشوية على الجمر مع صوص الثوم", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80" },
-            { id: 7, name: "دجاج شواية كامل", category: "grills", price: 15000, desc: "دجاجة كاملة محمرة على الفحم تقدم مع السلاطة والخبز", img: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500&q=80" },
-            { id: 8, name: "أجنحة دجاج متبلة", category: "grills", price: 9000, desc: "أجنحة مشوية مقرمشة بتتبيلة الليمون والسبايسي", img: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=500&q=80" },
+            { id: 1, name: "كباب عراقي فاخر", category: "grills", price: 14000, desc: "لحم غنم بلدي طازج مفروم مع البهارات الخاصة، يطرد على الفحم ويقدم مع الخضار المشوية والخبز الحار.", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80" },
+            { id: 2, name: "تكه لحم غنم", category: "grills", price: 16000, desc: "قطع لحم الغنم الطرية والمتبلة بعناية، مشوية على الفحم لتمنحك النكهة العراقية الأصيلة.", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80" },
+            { id: 3, name: "شيش طاووق دجاج", category: "grills", price: 12000, desc: "صدور دجاج متبلة بخلطة الليمون والزبادي والبهارات المقرمشة، مشوية حتى الكمال.", img: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=500&q=80" },
+            { id: 4, name: "مشكل سمسمه الخاص", category: "grills", price: 25000, desc: "وجبة ملكية مشكلة تحتوي على كباب لحم، تكه، شيش طاووق مع الخضار والمقبلات والخبز.", img: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=500&q=80" },
+            { id: 5, name: "كباب دجاج بالفرن", category: "grills", price: 11000, desc: "شيش كباب دجاج مفروم طازج محضر خصيصاً مع الخضار والتوابل الشهية.", img: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&q=80" },
+            { id: 6, name: "ريش غنم مشوية", category: "grills", price: 18000, desc: "أضلاع الغنم التندر المشوية على الجمر مع صوص الثوم والخبز المتبل.", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80" },
 
             // --- المقبلات ---
-            { id: 9, name: "حمص بطحينة باللحم", category: "appetizers", price: 5000, desc: "حمص ناعم مع زيت الزيتون وقطع اللحم المحمّر", img: "https://images.unsplash.com/photo-1577906096429-f73c2c312435?w=500&q=80" },
-            { id: 10, name: "متبل باذنجان مشوي", category: "appetizers", price: 4000, desc: "باذنجان مشوي على الفحم مع الطحينة والرمان", img: "https://images.unsplash.com/photo-1541518763669-27fef04b14e8?w=500&q=80" },
-            { id: 11, name: "تبولة لبنانية", category: "appetizers", price: 4000, desc: "بقدونس طازج، برغل، طماطم، زيت زيتون وليمون", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=80" },
-            { id: 12, name: "فتوش بالمحمّص", category: "appetizers", price: 4000, desc: "خضار طازجة مع الخبز المحمص ودبس الرمان", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&q=80" },
-            { id: 13, name: "سلطة يونانية", category: "appetizers", price: 4500, desc: "خيار، طماطم، زيتون أسود مع مكعبات جبن الفتة", img: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&q=80" },
-            { id: 14, name: "ورق عنب بالزيت", category: "appetizers", price: 5000, desc: "ورق عنب محشو بالأرز والخضار الحامضة (8 قطع)", img: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500&q=80" },
-            { id: 15, name: "كبة موصلية كبيرة", category: "appetizers", price: 6000, desc: "كبة برغل مشوية ومحشوة باللحم المفروم والمكسرات", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&q=80" },
+            { id: 9, name: "حمص بطحينة باللحم", category: "appetizers", price: 5000, desc: "حمص ناعم كريمي مع الطحينة وزيت الزيتون البكر ومزين بقطع اللحم المحمر.", img: "https://images.unsplash.com/photo-1577906096429-f73c2c312435?w=500&q=80" },
+            { id: 10, name: "متبل باذنجان مشوي", category: "appetizers", price: 4000, desc: "باذنجان مشوي على الفحم مهروس مع الطحينة والثوم ودبس الرمان والرمان الطازج.", img: "https://images.unsplash.com/photo-1541518763669-27fef04b14e8?w=500&q=80" },
+            { id: 11, name: "تبولة لبنانية", category: "appetizers", price: 4000, desc: "بقدونس طازج مفروم ناعم مع البرغل والنعناع والطماطم والتتبيلة الحامضة.", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=80" },
+            { id: 12, name: "فتوش بالمحمّص", category: "appetizers", price: 4000, desc: "خضار متنوعة مع الخبز الذهبي المحمص وسماق ودبس الرمان الفاخر.", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&q=80" },
 
             // --- الحلويات ---
-            { id: 16, name: "كنافة بالجبنة النابلسية", category: "desserts", price: 6000, desc: "كنافة ساخنة مقرمشة بالجبنة الذائبة والفستق الحلبي", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=500&q=80" },
-            { id: 17, name: "بقلاوة مشكلة بالفستق", category: "desserts", price: 7000, desc: "قطع بقلاوة هشة غنية بالفستق الحلبي والقطر", img: "https://images.unsplash.com/photo-1519676867240-f03562e64548?w=500&q=80" },
-            { id: 18, name: "كيك الشوكولاتة الذائبة (مولتن)", category: "desserts", price: 6500, desc: "كيك شوكولاتة ساخن مع صوص الشوكولاتة الغني", img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500&q=80" },
-            { id: 19, name: "أم علي بالملبن والمكسرات", category: "desserts", price: 5000, desc: "رقائق الخبز بالدسم، الحليب الساخن والمكسرات المقرمشة", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=500&q=80" },
-            { id: 20, name: "تشيز كيك اللوتس", category: "desserts", price: 6000, desc: "طبقات الكريمة الغنية مع زبدة وبسكويت اللوتس", img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=500&q=80" },
-            { id: 21, name: "رز بحليب ومعطر بالماء زهر", category: "desserts", price: 3500, desc: "تحلية طبق الأرز بالحليب التقليدي ورشة فستق", img: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=500&q=80" },
+            { id: 16, name: "كنافة بالجبنة النابلسية", category: "desserts", price: 6000, desc: "كنافة ساخنة هشة بالجبنة النابلسية الذائبة ومغشاة بالقطر والفستق الحلبي.", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=500&q=80" },
+            { id: 17, name: "بقلاوة مشكلة بالفستق", category: "desserts", price: 7000, desc: "قطع بقلاوة هشة ذهبية محشوة بالفستق الحلبي الفاخر والقطر المعطر.", img: "https://images.unsplash.com/photo-1519676867240-f03562e64548?w=500&q=80" },
+            { id: 18, name: "كيك الشوكولاتة الذائبة (مولتن)", category: "desserts", price: 6500, desc: "كيك شوكولاتة ساخن محشو بالشوكولاتة الفاخرة الذائبة ينفجر بالنكهة.", img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500&q=80" },
 
             // --- الآيس كريم ---
-            { id: 22, name: "آيس كريم صنداي الفراولة", category: "icecream", price: 4000, desc: "كاسات آيس كريم فانيليا مع قطع الفراولة والصوص", img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&q=80" },
-            { id: 23, name: "آيس كريم الفستق والزعفران", category: "icecream", price: 5000, desc: "آيس كريم شرقي طبيعي بطعم الزعفران والفستق", img: "https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=500&q=80" },
-            { id: 24, name: "مكس آيس كريم سمسمه", category: "icecream", price: 4500, desc: "تشكيلة نكهات (شوكولاتة، فانيليا، مانجو)", img: "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=500&q=80" },
-            { id: 25, name: "آيس كريم بلجيكي بالفحم", category: "icecream", price: 5500, desc: "آيس كريم شوكولاتة داكنة غنية مع المخروط الأسود", img: "https://images.unsplash.com/photo-1557142046-c704a3adf364?w=500&q=80" },
-            { id: 26, name: "ميلك شيك أوريو ديلوكس", category: "icecream", price: 5000, desc: "مشروب آيس كريم أوريو كثيف ومُغطى بالكريمة المخفوقة", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&q=80" },
+            { id: 22, name: "آيس كريم صنداي الفراولة", category: "icecream", price: 4000, desc: "كاسات آيس كريم فانيليا غنية مع صوص وقطع الفراولة الطبيعية.", img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&q=80" },
+            { id: 23, name: "آيس كريم الفستق والزعفران", category: "icecream", price: 5000, desc: "آيس كريم شرقي مصنوع يدوياً من الفستق والزعفران الطبيعي.", img: "https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=500&q=80" },
 
             // --- المشروبات ---
-            { id: 27, name: "عصير برتقال طبيعي", category: "drinks", price: 3000, desc: "برتقال طازج معصور مع كل طلب", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=500&q=80" },
-            { id: 28, name: "لبن أربيل بالنعناع", category: "drinks", price: 2000, desc: "لبن مخفوق بارد ومُنعش مع أوراق النعناع", img: "https://images.unsplash.com/photo-1571006682858-a458b8a69388?w=500&q=80" },
-            { id: 29, name: "موهيتو سمسمه الخاص", category: "drinks", price: 4000, desc: "شراب الليمون، النعناع الطازج، والصودا الباردة", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80" },
-            { id: 30, name: "شاي خدران عراقي", category: "drinks", price: 1500, desc: "شاي مهيل مخدر على الفحم", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&q=80" },
-            { id: 31, name: "كوكتيل فواكه طبقات", category: "drinks", price: 4500, desc: "مكس مانجو، فراولة، وموز مع الحليب والقطع الطازجة", img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500&q=80" },
-            { id: 32, name: "قهوة تركية بالهيل", category: "drinks", price: 2500, desc: "قهوة محمصة ومغلية بالهيل على الرمل", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=500&q=80" },
-            { id: 33, name: "مشروبات غازية متنوعة", category: "drinks", price: 1000, desc: "بيبسي، سفن آب، ميرندا بارد جداً", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&q=80" }
+            { id: 27, name: "عصير برتقال طبيعي", category: "drinks", price: 3000, desc: "برتقال طازج معصور فورياً بدون إضافة سكر أو مواد حافظة.", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=500&q=80" },
+            { id: 28, name: "لبن أربيل بالنعناع", category: "drinks", price: 2000, desc: "لبن خاثر برغوة كثيفة مع لمسة نعناع طازج، منعش ولذيذ مع المشويات.", img: "https://images.unsplash.com/photo-1571006682858-a458b8a69388?w=500&q=80" },
+            { id: 29, name: "موهيتو سمسمه الخاص", category: "drinks", price: 4000, desc: "شراب الليمون، النعناع الأخضر، والصودا الباردة لإنتعاش لا يقاوم.", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80" }
         ];
 
         let cart = {};
@@ -866,15 +949,18 @@
                     const card = document.createElement('div');
                     card.className = 'dish-card';
                     card.innerHTML = `
-                        <img src="${dish.img}" alt="${dish.name}" class="dish-img">
+                        <div class="dish-img-wrap" onclick="openLightbox(${dish.id})">
+                            <img src="${dish.img}" alt="${dish.name}" class="dish-img">
+                            <div class="img-overlay-icon"><i class="fa-solid fa-expand"></i></div>
+                        </div>
                         <div class="dish-details">
-                            <div>
+                            <div onclick="openLightbox(${dish.id})">
                                 <div class="dish-title">${dish.name}</div>
                                 <div class="dish-desc">${dish.desc}</div>
                             </div>
                             <div class="dish-footer">
                                 <div class="dish-price">${dish.price.toLocaleString()} د.ع</div>
-                                <div class="quantity-control">
+                                <div class="quantity-control" onclick="event.stopPropagation();">
                                     <button class="qty-btn" onclick="updateQty(${dish.id}, -1)">-</button>
                                     <span class="qty-number" id="qty-${dish.id}">${qty}</span>
                                     <button class="qty-btn" onclick="updateQty(${dish.id}, 1)">+</button>
@@ -885,6 +971,35 @@
                     gridContainer.appendChild(card);
                 });
             });
+        }
+
+        // 2. دوال نافذة تكبير الصور (Lightbox Modal)
+        function openLightbox(dishId) {
+            const dish = menuData.find(d => d.id === dishId);
+            if (!dish) return;
+
+            document.getElementById('lightboxImg').src = dish.img;
+            document.getElementById('lightboxTitle').innerText = dish.name;
+            document.getElementById('lightboxDesc').innerText = dish.desc;
+            document.getElementById('lightboxPrice').innerText = `${dish.price.toLocaleString()} د.ع`;
+
+            const qty = cart[dish.id] || 0;
+            document.getElementById('lightboxAction').innerHTML = `
+                <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
+                    <span style="font-weight: 800; font-size: 0.9rem;">الكمية المطلوب إضافتها:</span>
+                    <div class="quantity-control" style="scale: 1.2;">
+                        <button class="qty-btn" onclick="updateQty(${dish.id}, -1)">-</button>
+                        <span class="qty-number" id="qty-${dish.id}">${qty}</span>
+                        <button class="qty-btn" onclick="updateQty(${dish.id}, 1)">+</button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('lightboxModal').classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').classList.remove('active');
         }
 
         function scrollToSection(catId) {
