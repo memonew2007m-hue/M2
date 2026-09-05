@@ -6,7 +6,7 @@
     <title>منيو مطعم سمسمه | Simsimah Restaurant</title>
     <!-- PWA Web App Meta -->
     <meta name="theme-color" content="#ffffff">
-    <link rel="manifest" href='data:application/manifest+json,{"name":"مطعم سمسمه","short_name":"سمسمه","start_url":".","display":"standalone","background_color":"#ffffff","theme_color":"#ffd700","icons":[{"src":"https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=192&q=80","sizes":"192x192","type":"image/jpeg"}]}'>
+    <link rel="manifest" href='data:application/manifest+json,{"name":"مطعم سمسمه","short_name":"سمسمه","start_url":".","display":"standalone","background_color":"#ffffff","theme_color":"#C59B27","icons":[{"src":"https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=192&q=80","sizes":"192x192","type":"image/jpeg"}]}'>
     
     <!-- خط القاهرة -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -15,49 +15,35 @@
     
     <style>
         :root {
+            /* النمط الأبيض (الافتراضي) - باللون الذهبي الملكي بدلاً من الأصفر الفاقع */
             --bg-primary: #ffffff;
-            --bg-card: #fdfdfd;
+            --bg-card: #fafafa;
             --bg-nav: rgba(255, 255, 255, 0.96);
-            --text-main: #111827;
-            --text-muted: #6b7280;
-            --yellow-bright: #ffea00;
-            --yellow-glow: #ffd700;
-            --border-color: rgba(255, 215, 0, 0.6);
-            --shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            --text-main: #1a1a1a;
+            --text-muted: #666666;
+            --accent-color: #C59B27;
+            --accent-glow: rgba(197, 155, 39, 0.25);
+            --accent-hover: #A07C1C;
+            --accent-text: #ffffff;
+            --border-color: rgba(197, 155, 39, 0.35);
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --card-shadow: 0 6px 20px rgba(197, 155, 39, 0.18);
         }
 
         .dark {
-            --bg-primary: #050505;
-            --bg-card: #121212;
-            --bg-nav: rgba(10, 10, 10, 0.95);
-            --text-main: #ffffff;
-            --text-muted: #a1a1aa;
-            --yellow-bright: #ffea00;
-            --yellow-glow: #ffd700;
-            --border-color: rgba(255, 215, 0, 0.4);
-            --shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
-        }
-
-        /* تحريك التوهج بالأصفر الساطع */
-        @keyframes yellowGlowPulse {
-            0% {
-                box-shadow: 0 0 8px #ffd700, 0 0 15px rgba(255, 234, 0, 0.4);
-                border-color: #ffd700;
-            }
-            50% {
-                box-shadow: 0 0 22px #ffea00, 0 0 35px rgba(255, 215, 0, 0.8);
-                border-color: #ffea00;
-            }
-            100% {
-                box-shadow: 0 0 8px #ffd700, 0 0 15px rgba(255, 234, 0, 0.4);
-                border-color: #ffd700;
-            }
-        }
-
-        @keyframes animatedGlowBackground {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            /* النمط الداكن - ذهبي فخم دافئ */
+            --bg-primary: #0a0a0a;
+            --bg-card: #141414;
+            --bg-nav: rgba(15, 15, 15, 0.95);
+            --text-main: #f5f5f5;
+            --text-muted: #a0a0a0;
+            --accent-color: #D4AF37;
+            --accent-glow: rgba(212, 175, 55, 0.2);
+            --accent-hover: #B38728;
+            --accent-text: #000000;
+            --border-color: rgba(212, 175, 55, 0.25);
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            --card-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
         }
 
         * {
@@ -65,7 +51,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Cairo', sans-serif;
-            transition: background-color 0.25s ease, color 0.25s ease;
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
         html {
@@ -85,9 +71,8 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 3px solid var(--yellow-glow);
+            border-bottom: 2px solid var(--border-color);
             padding: 10px 15px;
-            animation: yellowGlowPulse 3s infinite ease-in-out;
         }
 
         .header-top {
@@ -105,20 +90,18 @@
         }
 
         .logo-icon {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(45deg, #ffd700, #ffea00, #ffae00);
-            background-size: 200% 200%;
-            animation: animatedGlowBackground 3s infinite alternate;
+            width: 42px;
+            height: 42px;
+            background: var(--accent-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #000;
-            font-size: 20px;
-            box-shadow: 0 0 15px var(--yellow-glow);
+            color: #fff;
+            font-size: 18px;
+            box-shadow: 0 0 12px var(--accent-glow);
             overflow: hidden;
-            border: 2px solid #ffffff;
+            border: 2px solid var(--accent-hover);
         }
 
         .logo-icon img {
@@ -128,7 +111,7 @@
         }
 
         .brand-title h1 {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 900;
             color: var(--text-main);
             line-height: 1.1;
@@ -136,14 +119,14 @@
 
         .brand-title p {
             font-size: 0.72rem;
-            color: #d4a000;
-            font-weight: 800;
+            color: var(--accent-color);
+            font-weight: 700;
         }
 
         .theme-toggle-btn {
-            background: rgba(255, 215, 0, 0.2);
-            border: 1.5px solid var(--yellow-glow);
-            color: #856404;
+            background: var(--bg-card);
+            border: 1.5px solid var(--border-color);
+            color: var(--accent-color);
             width: 36px;
             height: 36px;
             border-radius: 10px;
@@ -151,8 +134,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            animation: yellowGlowPulse 2.5s infinite;
+            font-size: 15px;
         }
 
         .info-bar {
@@ -169,14 +151,14 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: linear-gradient(90deg, #ffd700, #ffea00);
-            color: #000;
+            background: var(--accent-color);
+            color: #fff;
             text-decoration: none;
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 900;
-            animation: yellowGlowPulse 2s infinite ease-in-out;
+            font-size: 0.78rem;
+            font-weight: 800;
+            box-shadow: 0 3px 10px var(--accent-glow);
         }
 
         .social-links {
@@ -185,22 +167,22 @@
         }
 
         .social-btn {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-main);
             background: var(--bg-card);
-            border: 1.5px solid var(--yellow-glow);
+            border: 1px solid var(--border-color);
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .search-container {
             max-width: 800px;
-            margin: 12px auto;
+            margin: 10px auto;
             padding: 0 12px;
         }
 
@@ -213,12 +195,16 @@
             width: 100%;
             padding: 10px 38px 10px 14px;
             border-radius: 25px;
-            border: 2px solid var(--yellow-glow);
+            border: 1.5px solid var(--border-color);
             background: var(--bg-card);
             color: var(--text-main);
             font-size: 0.85rem;
             outline: none;
-            animation: yellowGlowPulse 4s infinite;
+        }
+
+        .search-box input:focus {
+            box-shadow: 0 0 10px var(--accent-glow);
+            border-color: var(--accent-color);
         }
 
         .search-box i {
@@ -226,20 +212,20 @@
             right: 14px;
             top: 50%;
             transform: translateY(-50%);
-            color: #d4a000;
+            color: var(--accent-color);
             font-size: 0.9rem;
         }
 
         .categories-container {
             position: sticky;
-            top: 65px;
+            top: 63px;
             z-index: 90;
             background: var(--bg-nav);
             backdrop-filter: blur(8px);
             max-width: 800px;
             margin: 6px auto;
             padding: 8px 12px;
-            border-bottom: 2px solid var(--yellow-glow);
+            border-bottom: 2px solid var(--border-color);
         }
 
         .categories-tabs {
@@ -257,12 +243,12 @@
         .tab-btn {
             background: var(--bg-card);
             color: var(--text-muted);
-            border: 1.5px solid var(--yellow-glow);
-            padding: 8px 16px;
+            border: 1.5px solid var(--border-color);
+            padding: 7px 14px;
             border-radius: 20px;
             white-space: nowrap;
             font-weight: 800;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -271,10 +257,10 @@
         }
 
         .tab-btn.active {
-            background: linear-gradient(90deg, #ffd700, #ffea00);
-            color: #000;
-            border-color: #ffea00;
-            animation: yellowGlowPulse 1.5s infinite;
+            background: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
+            box-shadow: 0 3px 12px var(--accent-glow);
         }
 
         .menu-wrapper {
@@ -283,64 +269,42 @@
             padding: 0 12px;
         }
 
-        /* الفاصل المربع الكبير للأقسام بداخل الشعار المتوهج */
-        .square-section-divider {
-            margin: 40px 0 25px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .square-divider-card {
-            width: 100%;
-            max-width: 320px;
-            aspect-ratio: 1.2 / 1;
-            background: var(--bg-card);
-            border: 3px solid var(--yellow-glow);
-            border-radius: 22px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 20px;
-            animation: yellowGlowPulse 2s infinite ease-in-out;
+        .section-divider {
+            margin: 35px 0 20px 0;
+            text-align: center;
             position: relative;
-            overflow: hidden;
         }
 
-        .square-divider-card::before {
+        .section-divider::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 234, 0, 0.15) 0%, transparent 70%);
-            animation: animatedGlowBackground 4s infinite linear;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+            z-index: 1;
         }
 
-        .square-icon-box {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #ffd700, #ffea00);
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            font-size: 34px;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.9);
-            border: 2px solid #ffffff;
+        .section-title-lg {
+            position: relative;
             z-index: 2;
-        }
-
-        .square-divider-title {
-            font-size: 1.4rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg-primary);
+            padding: 8px 24px;
+            border: 2px solid var(--accent-color);
+            border-radius: 30px;
+            font-size: 1.15rem;
             font-weight: 900;
             color: var(--text-main);
-            z-index: 2;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .section-title-lg i {
+            color: var(--accent-color);
+            font-size: 1.2rem;
         }
 
         .menu-container {
@@ -357,8 +321,8 @@
 
         .dish-card {
             background: var(--bg-card);
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 14px;
             overflow: hidden;
             box-shadow: var(--shadow);
             display: flex;
@@ -366,12 +330,13 @@
         }
 
         .dish-card:hover {
-            animation: yellowGlowPulse 1.5s infinite;
+            box-shadow: var(--card-shadow);
+            border-color: var(--accent-color);
         }
 
         .dish-img {
             width: 100%;
-            height: 110px;
+            height: 115px;
             object-fit: cover;
         }
 
@@ -387,6 +352,7 @@
             font-size: 0.88rem;
             font-weight: 800;
             margin-bottom: 3px;
+            line-height: 1.2;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -414,14 +380,14 @@
         .dish-price {
             font-size: 0.85rem;
             font-weight: 900;
-            color: #d4a000;
+            color: var(--accent-color);
         }
 
         .quantity-control {
             display: flex;
             align-items: center;
-            background: rgba(255, 215, 0, 0.2);
-            border: 1px solid var(--yellow-glow);
+            background: rgba(197, 155, 39, 0.1);
+            border: 1px solid var(--border-color);
             border-radius: 15px;
             padding: 2px;
             gap: 4px;
@@ -432,8 +398,8 @@
             height: 22px;
             border-radius: 50%;
             border: none;
-            background: #ffd700;
-            color: #000;
+            background: var(--accent-color);
+            color: #fff;
             font-size: 13px;
             font-weight: 900;
             cursor: pointer;
@@ -449,7 +415,6 @@
             text-align: center;
         }
 
-        /* السلة المضيئة المتوهجة باللون الأصفر */
         .cart-bar {
             position: fixed;
             bottom: 12px;
@@ -458,9 +423,9 @@
             width: calc(100% - 24px);
             max-width: 760px;
             background: var(--bg-nav);
-            border: 2px solid #ffea00;
-            animation: yellowGlowPulse 2s infinite ease-in-out;
-            border-radius: 18px;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 6px 25px var(--accent-glow);
+            border-radius: 16px;
             padding: 8px 14px;
             display: flex;
             justify-content: space-between;
@@ -477,24 +442,23 @@
 
         .cart-icon-wrap {
             position: relative;
-            background: linear-gradient(45deg, #ffd700, #ffea00);
-            color: #000;
-            width: 38px;
-            height: 38px;
+            background: var(--accent-color);
+            color: #fff;
+            width: 36px;
+            height: 36px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 16px;
             font-weight: bold;
-            box-shadow: 0 0 10px #ffd700;
         }
 
         .cart-badge {
             position: absolute;
             top: -6px;
             right: -6px;
-            background: #e60000;
+            background: #d9534f;
             color: white;
             font-size: 0.65rem;
             font-weight: bold;
@@ -512,9 +476,9 @@
         }
 
         .cart-total-price {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 900;
-            color: #d4a000;
+            color: var(--accent-color);
         }
 
         .send-order-btn {
@@ -529,7 +493,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            box-shadow: 0 3px 12px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
         }
 
         .modal-overlay {
@@ -553,8 +517,7 @@
 
         .modal-content {
             background: var(--bg-card);
-            border: 2px solid #ffea00;
-            animation: yellowGlowPulse 3s infinite;
+            border: 2px solid var(--accent-color);
             width: 100%;
             max-width: 420px;
             border-radius: 18px;
@@ -569,7 +532,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
-            border-bottom: 1px solid var(--yellow-glow);
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 8px;
             font-size: 0.95rem;
         }
@@ -586,7 +549,7 @@
             display: flex;
             justify-content: space-between;
             padding: 7px 0;
-            border-bottom: 1px dashed var(--yellow-glow);
+            border-bottom: 1px dashed var(--border-color);
             font-size: 0.82rem;
         }
 
@@ -599,7 +562,7 @@
         .type-btn {
             flex: 1;
             padding: 8px;
-            border: 1.5px solid var(--yellow-glow);
+            border: 1.5px solid var(--border-color);
             background: var(--bg-primary);
             color: var(--text-muted);
             border-radius: 10px;
@@ -613,11 +576,10 @@
         }
 
         .type-btn.active {
-            border-color: #ffea00;
-            background: rgba(255, 215, 0, 0.25);
-            color: #d4a000;
+            border-color: var(--accent-color);
+            background: rgba(197, 155, 39, 0.15);
+            color: var(--accent-color);
             font-weight: 800;
-            animation: yellowGlowPulse 2s infinite;
         }
 
         .input-group {
@@ -635,7 +597,7 @@
             width: 100%;
             padding: 8px 10px;
             background: var(--bg-primary);
-            border: 1.5px solid var(--yellow-glow);
+            border: 1.5px solid var(--border-color);
             border-radius: 10px;
             color: var(--text-main);
             font-size: 0.82rem;
@@ -695,7 +657,7 @@
         </div>
     </header>
 
-    <!-- حقل البحث -->
+    <!-- حقل البحث السريع -->
     <div class="search-container">
         <div class="search-box">
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -703,7 +665,7 @@
         </div>
     </div>
 
-    <!-- تبويبات الأقسام -->
+    <!-- تبويبات الأقسام التفاعلية -->
     <div class="categories-container">
         <div class="categories-tabs" id="categoriesTabs"></div>
     </div>
@@ -711,7 +673,7 @@
     <!-- غلاف الأطباق الكامل -->
     <div class="menu-wrapper" id="menuWrapper"></div>
 
-    <!-- شريط السلة السفلي المتوهج -->
+    <!-- شريط السلة السفلي -->
     <div class="cart-bar" id="cartBar">
         <div class="cart-info">
             <div class="cart-icon-wrap">
@@ -728,7 +690,7 @@
         </button>
     </div>
 
-    <!-- نافذة المودال -->
+    <!-- نافذة تأكيد الطلب المودال -->
     <div class="modal-overlay" id="orderModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -738,6 +700,7 @@
             
             <div id="modalOrderItems"></div>
 
+            <!-- تحديد نوع الطلب -->
             <div class="input-group">
                 <label>نوع الطلب:</label>
                 <div class="order-type-selector">
@@ -753,6 +716,7 @@
                 </div>
             </div>
 
+            <!-- حقل التوصيل الديناميكي -->
             <div class="input-group" id="deliveryGroup" style="display: none;">
                 <label for="deliveryZone">منطقة التوصيل:</label>
                 <select id="deliveryZone" onchange="updateModalTotal()">
@@ -789,29 +753,50 @@
             { id: "drinks", title: "قسم المشروبات", icon: "fa-glass-water" }
         ];
 
+        // قائمة معززة وموسعة بالأطباق لكل قسم
         let menuData = [
-            // المشويات
+            // --- المشويات ---
             { id: 1, name: "كباب عراقي فاخر", category: "grills", price: 14000, desc: "لحم غنم بلدي مع الخضار المشوية والخبز الحار", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80" },
             { id: 2, name: "تكه لحم غنم", category: "grills", price: 16000, desc: "قطع لحم الغنم الطرية المشوية على الفحم", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80" },
             { id: 3, name: "شيش طاووق دجاج", category: "grills", price: 12000, desc: "صدور دجاج متبلة بالخلطة الخاصة ومشوّية", img: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=500&q=80" },
             { id: 4, name: "مشكل سمسمه الخاص", category: "grills", price: 25000, desc: "تشكيلة من الكباب، التكه، الطاووق مع المقبلات", img: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=500&q=80" },
+            { id: 5, name: "كباب دجاج بالفرن", category: "grills", price: 11000, desc: "شيش كباب دجاج مفروم طازج مع البهارات المشكلة", img: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&q=80" },
+            { id: 6, name: "ريش غنم مشوية", category: "grills", price: 18000, desc: "أضلاع الغنم التندر المشوية على الجمر مع صوص الثوم", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80" },
+            { id: 7, name: "دجاج شواية كامل", category: "grills", price: 15000, desc: "دجاجة كاملة محمرة على الفحم تقدم مع السلاطة والخبز", img: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500&q=80" },
+            { id: 8, name: "أجنحة دجاج متبلة", category: "grills", price: 9000, desc: "أجنحة مشوية مقرمشة بتتبيلة الليمون والسبايسي", img: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=500&q=80" },
 
-            // المقبلات
-            { id: 5, name: "حمص بطحينة باللحم", category: "appetizers", price: 5000, desc: "حمص ناعم مع زيت الزيتون وقطع اللحم المحمّر", img: "https://images.unsplash.com/photo-1577906096429-f73c2c312435?w=500&q=80" },
-            { id: 6, name: "متبل باذنجان مشوي", category: "appetizers", price: 4000, desc: "باذنجان مشوي على الفحم مع الطحينة والرمان", img: "https://images.unsplash.com/photo-1541518763669-27fef04b14e8?w=500&q=80" },
-            { id: 7, name: "تبولة لبنانية", category: "appetizers", price: 4000, desc: "بقدونس طازج، برغل، طماطم، زيت زيتون وليمون", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=80" },
+            // --- المقبلات ---
+            { id: 9, name: "حمص بطحينة باللحم", category: "appetizers", price: 5000, desc: "حمص ناعم مع زيت الزيتون وقطع اللحم المحمّر", img: "https://images.unsplash.com/photo-1577906096429-f73c2c312435?w=500&q=80" },
+            { id: 10, name: "متبل باذنجان مشوي", category: "appetizers", price: 4000, desc: "باذنجان مشوي على الفحم مع الطحينة والرمان", img: "https://images.unsplash.com/photo-1541518763669-27fef04b14e8?w=500&q=80" },
+            { id: 11, name: "تبولة لبنانية", category: "appetizers", price: 4000, desc: "بقدونس طازج، برغل، طماطم، زيت زيتون وليمون", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=80" },
+            { id: 12, name: "فتوش بالمحمّص", category: "appetizers", price: 4000, desc: "خضار طازجة مع الخبز المحمص ودبس الرمان", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&q=80" },
+            { id: 13, name: "سلطة يونانية", category: "appetizers", price: 4500, desc: "خيار، طماطم، زيتون أسود مع مكعبات جبن الفتة", img: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&q=80" },
+            { id: 14, name: "ورق عنب بالزيت", category: "appetizers", price: 5000, desc: "ورق عنب محشو بالأرز والخضار الحامضة (8 قطع)", img: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500&q=80" },
+            { id: 15, name: "كبة موصلية كبيرة", category: "appetizers", price: 6000, desc: "كبة برغل مشوية ومحشوة باللحم المفروم والمكسرات", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&q=80" },
 
-            // الحلويات
-            { id: 12, name: "كنافة بالجبنة النابلسية", category: "desserts", price: 6000, desc: "كنافة ساخنة مقرمشة بالجبنة الذائبة والفستق الحلبي", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=500&q=80" },
-            { id: 13, name: "بقلاوة مشكلة بالفستق", category: "desserts", price: 7000, desc: "قطع بقلاوة هشة غنية بالفستق الحلبي والقطر", img: "https://images.unsplash.com/photo-1519676867240-f03562e64548?w=500&q=80" },
+            // --- الحلويات ---
+            { id: 16, name: "كنافة بالجبنة النابلسية", category: "desserts", price: 6000, desc: "كنافة ساخنة مقرمشة بالجبنة الذائبة والفستق الحلبي", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=500&q=80" },
+            { id: 17, name: "بقلاوة مشكلة بالفستق", category: "desserts", price: 7000, desc: "قطع بقلاوة هشة غنية بالفستق الحلبي والقطر", img: "https://images.unsplash.com/photo-1519676867240-f03562e64548?w=500&q=80" },
+            { id: 18, name: "كيك الشوكولاتة الذائبة (مولتن)", category: "desserts", price: 6500, desc: "كيك شوكولاتة ساخن مع صوص الشوكولاتة الغني", img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500&q=80" },
+            { id: 19, name: "أم علي بالملبن والمكسرات", category: "desserts", price: 5000, desc: "رقائق الخبز بالدسم، الحليب الساخن والمكسرات المقرمشة", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=500&q=80" },
+            { id: 20, name: "تشيز كيك اللوتس", category: "desserts", price: 6000, desc: "طبقات الكريمة الغنية مع زبدة وبسكويت اللوتس", img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=500&q=80" },
+            { id: 21, name: "رز بحليب ومعطر بالماء زهر", category: "desserts", price: 3500, desc: "تحلية طبق الأرز بالحليب التقليدي ورشة فستق", img: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=500&q=80" },
 
-            // الآيس كريم
-            { id: 15, name: "آيس كريم صنداي الفراولة", category: "icecream", price: 4000, desc: "كاسات آيس كريم فانيليا مع قطع الفراولة والصوص", img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&q=80" },
-            { id: 16, name: "آيس كريم الفستق والزعفران", category: "icecream", price: 5000, desc: "آيس كريم شرقي طبيعي بطعم الزعفران والفستق", img: "https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=500&q=80" },
+            // --- الآيس كريم ---
+            { id: 22, name: "آيس كريم صنداي الفراولة", category: "icecream", price: 4000, desc: "كاسات آيس كريم فانيليا مع قطع الفراولة والصوص", img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&q=80" },
+            { id: 23, name: "آيس كريم الفستق والزعفران", category: "icecream", price: 5000, desc: "آيس كريم شرقي طبيعي بطعم الزعفران والفستق", img: "https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=500&q=80" },
+            { id: 24, name: "مكس آيس كريم سمسمه", category: "icecream", price: 4500, desc: "تشكيلة نكهات (شوكولاتة، فانيليا، مانجو)", img: "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=500&q=80" },
+            { id: 25, name: "آيس كريم بلجيكي بالفحم", category: "icecream", price: 5500, desc: "آيس كريم شوكولاتة داكنة غنية مع المخروط الأسود", img: "https://images.unsplash.com/photo-1557142046-c704a3adf364?w=500&q=80" },
+            { id: 26, name: "ميلك شيك أوريو ديلوكس", category: "icecream", price: 5000, desc: "مشروب آيس كريم أوريو كثيف ومُغطى بالكريمة المخفوقة", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&q=80" },
 
-            // المشروبات
-            { id: 8, name: "عصير برتقال طبيعي", category: "drinks", price: 3000, desc: "برتقال طازج معصور مع كل طلب", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=500&q=80" },
-            { id: 9, name: "لبن أربيل بالنعناع", category: "drinks", price: 2000, desc: "لبن مخفوق بارد ومُنعش مع أوراق النعناع", img: "https://images.unsplash.com/photo-1571006682858-a458b8a69388?w=500&q=80" }
+            // --- المشروبات ---
+            { id: 27, name: "عصير برتقال طبيعي", category: "drinks", price: 3000, desc: "برتقال طازج معصور مع كل طلب", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=500&q=80" },
+            { id: 28, name: "لبن أربيل بالنعناع", category: "drinks", price: 2000, desc: "لبن مخفوق بارد ومُنعش مع أوراق النعناع", img: "https://images.unsplash.com/photo-1571006682858-a458b8a69388?w=500&q=80" },
+            { id: 29, name: "موهيتو سمسمه الخاص", category: "drinks", price: 4000, desc: "شراب الليمون، النعناع الطازج، والصودا الباردة", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80" },
+            { id: 30, name: "شاي خدران عراقي", category: "drinks", price: 1500, desc: "شاي مهيل مخدر على الفحم", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&q=80" },
+            { id: 31, name: "كوكتيل فواكه طبقات", category: "drinks", price: 4500, desc: "مكس مانجو، فراولة، وموز مع الحليب والقطع الطازجة", img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500&q=80" },
+            { id: 32, name: "قهوة تركية بالهيل", category: "drinks", price: 2500, desc: "قهوة محمصة ومغلية بالهيل على الرمل", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=500&q=80" },
+            { id: 33, name: "مشروبات غازية متنوعة", category: "drinks", price: 1000, desc: "بيبسي، سفن آب، ميرندا بارد جداً", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&q=80" }
         ];
 
         let cart = {};
@@ -829,7 +814,7 @@
                     }
                 }
             } catch (err) {
-                console.log("استخدام البيانات المحلية:", err);
+                console.log("استخدام البيانات المحلية بدلاً من الشيت:", err);
             }
         }
 
@@ -851,12 +836,10 @@
                 const section = document.createElement('section');
                 section.id = `sec-${cat.id}`;
                 section.innerHTML = `
-                    <div class="square-section-divider">
-                        <div class="square-divider-card">
-                            <div class="square-icon-box">
-                                <i class="fa-solid ${cat.icon}"></i>
-                            </div>
-                            <div class="square-divider-title">${cat.title}</div>
+                    <div class="section-divider">
+                        <div class="section-title-lg">
+                            <i class="fa-solid ${cat.icon}"></i>
+                            <span>${cat.title}</span>
                         </div>
                     </div>
                     <div class="menu-container" id="grid-${cat.id}"></div>
@@ -924,6 +907,7 @@
                     }
                 }
             });
+
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             const activeTab = document.getElementById(`tab-${current}`);
             if (activeTab) activeTab.classList.add('active');
@@ -935,6 +919,7 @@
                 renderAllSections();
                 return;
             }
+
             const filtered = menuData.filter(dish => 
                 dish.name.toLowerCase().includes(query) || 
                 dish.desc.toLowerCase().includes(query)
@@ -1029,7 +1014,7 @@
             if (selectedOrderType === 'delivery') {
                 deliveryFee = parseInt(document.getElementById('deliveryZone').value) || 0;
                 modalItemsContainer.innerHTML += `
-                    <div class="order-summary-item" style="color: #d4a000; font-weight: bold;">
+                    <div class="order-summary-item" style="color: var(--accent-color); font-weight: bold;">
                         <span>أجور التوصيل:</span>
                         <span>+ ${deliveryFee.toLocaleString()} د.ع</span>
                     </div>
@@ -1039,9 +1024,9 @@
             const grandTotal = itemsTotal + deliveryFee;
 
             modalItemsContainer.innerHTML += `
-                <div class="order-summary-item" style="font-weight: 900; border-top: 2px solid var(--yellow-glow); margin-top: 10px; padding-top: 10px; font-size: 0.9rem;">
+                <div class="order-summary-item" style="font-weight: 900; border-top: 2px solid var(--accent-color); margin-top: 10px; padding-top: 10px; font-size: 0.9rem;">
                     <span>المجموع الكلي:</span>
-                    <span style="color: #d4a000;">${grandTotal.toLocaleString()} د.ع</span>
+                    <span style="color: var(--accent-color);">${grandTotal.toLocaleString()} د.ع</span>
                 </div>
             `;
         }
