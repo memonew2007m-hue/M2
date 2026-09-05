@@ -15,35 +15,49 @@
     
     <style>
         :root {
-            /* النمط الأبيض (الافتراضي) - مع لون ذهبي ساطع زاهي */
             --bg-primary: #ffffff;
-            --bg-card: #f9f9fb;
+            --bg-card: #fdfdfd;
             --bg-nav: rgba(255, 255, 255, 0.96);
             --text-main: #111827;
             --text-muted: #6b7280;
-            --accent-color: #ffd700;
-            --accent-glow: rgba(255, 215, 0, 0.55);
-            --accent-hover: #e6c200;
-            --accent-text: #000000;
-            --border-color: rgba(255, 215, 0, 0.5);
+            --yellow-bright: #ffea00;
+            --yellow-glow: #ffd700;
+            --border-color: rgba(255, 215, 0, 0.6);
             --shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-            --card-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
         }
 
         .dark {
-            /* النمط الداكن */
             --bg-primary: #050505;
             --bg-card: #121212;
             --bg-nav: rgba(10, 10, 10, 0.95);
             --text-main: #ffffff;
             --text-muted: #a1a1aa;
-            --accent-color: #ffd700;
-            --accent-glow: rgba(255, 215, 0, 0.4);
-            --accent-hover: #e6c200;
-            --accent-text: #000000;
-            --border-color: rgba(255, 215, 0, 0.3);
+            --yellow-bright: #ffea00;
+            --yellow-glow: #ffd700;
+            --border-color: rgba(255, 215, 0, 0.4);
             --shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
-            --card-shadow: 0 4px 15px rgba(255, 215, 0, 0.25);
+        }
+
+        /* تحريك التوهج بالأصفر الساطع */
+        @keyframes yellowGlowPulse {
+            0% {
+                box-shadow: 0 0 8px #ffd700, 0 0 15px rgba(255, 234, 0, 0.4);
+                border-color: #ffd700;
+            }
+            50% {
+                box-shadow: 0 0 22px #ffea00, 0 0 35px rgba(255, 215, 0, 0.8);
+                border-color: #ffea00;
+            }
+            100% {
+                box-shadow: 0 0 8px #ffd700, 0 0 15px rgba(255, 234, 0, 0.4);
+                border-color: #ffd700;
+            }
+        }
+
+        @keyframes animatedGlowBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         * {
@@ -51,7 +65,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Cairo', sans-serif;
-            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            transition: background-color 0.25s ease, color 0.25s ease;
         }
 
         html {
@@ -71,8 +85,9 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 2px solid var(--border-color);
+            border-bottom: 3px solid var(--yellow-glow);
             padding: 10px 15px;
+            animation: yellowGlowPulse 3s infinite ease-in-out;
         }
 
         .header-top {
@@ -90,18 +105,20 @@
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--accent-color);
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(45deg, #ffd700, #ffea00, #ffae00);
+            background-size: 200% 200%;
+            animation: animatedGlowBackground 3s infinite alternate;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #000;
-            font-size: 18px;
-            box-shadow: 0 0 12px var(--accent-glow);
+            font-size: 20px;
+            box-shadow: 0 0 15px var(--yellow-glow);
             overflow: hidden;
-            border: 2px solid var(--accent-hover);
+            border: 2px solid #ffffff;
         }
 
         .logo-icon img {
@@ -111,7 +128,7 @@
         }
 
         .brand-title h1 {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 900;
             color: var(--text-main);
             line-height: 1.1;
@@ -119,22 +136,23 @@
 
         .brand-title p {
             font-size: 0.72rem;
-            color: #b38f00;
-            font-weight: 700;
+            color: #d4a000;
+            font-weight: 800;
         }
 
         .theme-toggle-btn {
-            background: rgba(255, 215, 0, 0.15);
-            border: 1.5px solid var(--border-color);
+            background: rgba(255, 215, 0, 0.2);
+            border: 1.5px solid var(--yellow-glow);
             color: #856404;
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
             border-radius: 10px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 15px;
+            font-size: 16px;
+            animation: yellowGlowPulse 2.5s infinite;
         }
 
         .info-bar {
@@ -151,14 +169,14 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: var(--accent-color);
+            background: linear-gradient(90deg, #ffd700, #ffea00);
             color: #000;
             text-decoration: none;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.78rem;
-            font-weight: 800;
-            box-shadow: 0 3px 10px var(--accent-glow);
+            font-size: 0.8rem;
+            font-weight: 900;
+            animation: yellowGlowPulse 2s infinite ease-in-out;
         }
 
         .social-links {
@@ -167,22 +185,22 @@
         }
 
         .social-btn {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-main);
             background: var(--bg-card);
-            border: 1px solid var(--border-color);
+            border: 1.5px solid var(--yellow-glow);
             text-decoration: none;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .search-container {
             max-width: 800px;
-            margin: 10px auto;
+            margin: 12px auto;
             padding: 0 12px;
         }
 
@@ -195,16 +213,12 @@
             width: 100%;
             padding: 10px 38px 10px 14px;
             border-radius: 25px;
-            border: 1.5px solid var(--border-color);
+            border: 2px solid var(--yellow-glow);
             background: var(--bg-card);
             color: var(--text-main);
             font-size: 0.85rem;
             outline: none;
-        }
-
-        .search-box input:focus {
-            box-shadow: 0 0 10px var(--accent-glow);
-            border-color: var(--accent-color);
+            animation: yellowGlowPulse 4s infinite;
         }
 
         .search-box i {
@@ -212,20 +226,20 @@
             right: 14px;
             top: 50%;
             transform: translateY(-50%);
-            color: #b38f00;
+            color: #d4a000;
             font-size: 0.9rem;
         }
 
         .categories-container {
             position: sticky;
-            top: 61px;
+            top: 65px;
             z-index: 90;
             background: var(--bg-nav);
             backdrop-filter: blur(8px);
             max-width: 800px;
             margin: 6px auto;
             padding: 8px 12px;
-            border-bottom: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--yellow-glow);
         }
 
         .categories-tabs {
@@ -243,12 +257,12 @@
         .tab-btn {
             background: var(--bg-card);
             color: var(--text-muted);
-            border: 1.5px solid var(--border-color);
-            padding: 7px 14px;
+            border: 1.5px solid var(--yellow-glow);
+            padding: 8px 16px;
             border-radius: 20px;
             white-space: nowrap;
             font-weight: 800;
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -257,10 +271,10 @@
         }
 
         .tab-btn.active {
-            background: var(--accent-color);
+            background: linear-gradient(90deg, #ffd700, #ffea00);
             color: #000;
-            border-color: var(--accent-color);
-            box-shadow: 0 3px 12px var(--accent-glow);
+            border-color: #ffea00;
+            animation: yellowGlowPulse 1.5s infinite;
         }
 
         .menu-wrapper {
@@ -269,43 +283,64 @@
             padding: 0 12px;
         }
 
-        /* الفاصل الكبير المميز بين الأقسام */
-        .section-divider {
-            margin: 35px 0 20px 0;
-            text-align: center;
-            position: relative;
+        /* الفاصل المربع الكبير للأقسام بداخل الشعار المتوهج */
+        .square-section-divider {
+            margin: 40px 0 25px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .section-divider::before {
+        .square-divider-card {
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 1.2 / 1;
+            background: var(--bg-card);
+            border: 3px solid var(--yellow-glow);
+            border-radius: 22px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px;
+            animation: yellowGlowPulse 2s infinite ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .square-divider-card::before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-            z-index: 1;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 234, 0, 0.15) 0%, transparent 70%);
+            animation: animatedGlowBackground 4s infinite linear;
         }
 
-        .section-title-lg {
-            position: relative;
-            z-index: 2;
-            display: inline-flex;
+        .square-icon-box {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #ffd700, #ffea00);
+            border-radius: 18px;
+            display: flex;
             align-items: center;
-            gap: 12px;
-            background: var(--bg-primary);
-            padding: 8px 24px;
-            border: 2px solid var(--accent-color);
-            border-radius: 30px;
-            font-size: 1.25rem;
+            justify-content: center;
+            color: #000;
+            font-size: 34px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.9);
+            border: 2px solid #ffffff;
+            z-index: 2;
+        }
+
+        .square-divider-title {
+            font-size: 1.4rem;
             font-weight: 900;
             color: var(--text-main);
-            box-shadow: 0 4px 15px var(--accent-glow);
-        }
-
-        .section-title-lg i {
-            color: #b38f00;
-            font-size: 1.3rem;
+            z-index: 2;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
         .menu-container {
@@ -322,8 +357,8 @@
 
         .dish-card {
             background: var(--bg-card);
-            border: 1.5px solid var(--border-color);
-            border-radius: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
             overflow: hidden;
             box-shadow: var(--shadow);
             display: flex;
@@ -331,8 +366,7 @@
         }
 
         .dish-card:hover {
-            box-shadow: var(--card-shadow);
-            border-color: var(--accent-color);
+            animation: yellowGlowPulse 1.5s infinite;
         }
 
         .dish-img {
@@ -353,7 +387,6 @@
             font-size: 0.88rem;
             font-weight: 800;
             margin-bottom: 3px;
-            line-height: 1.2;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -381,14 +414,14 @@
         .dish-price {
             font-size: 0.85rem;
             font-weight: 900;
-            color: #b38f00;
+            color: #d4a000;
         }
 
         .quantity-control {
             display: flex;
             align-items: center;
-            background: rgba(255, 215, 0, 0.15);
-            border: 1px solid var(--border-color);
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid var(--yellow-glow);
             border-radius: 15px;
             padding: 2px;
             gap: 4px;
@@ -399,7 +432,7 @@
             height: 22px;
             border-radius: 50%;
             border: none;
-            background: var(--accent-color);
+            background: #ffd700;
             color: #000;
             font-size: 13px;
             font-weight: 900;
@@ -416,6 +449,7 @@
             text-align: center;
         }
 
+        /* السلة المضيئة المتوهجة باللون الأصفر */
         .cart-bar {
             position: fixed;
             bottom: 12px;
@@ -424,9 +458,9 @@
             width: calc(100% - 24px);
             max-width: 760px;
             background: var(--bg-nav);
-            border: 2px solid var(--accent-color);
-            box-shadow: 0 6px 25px var(--accent-glow);
-            border-radius: 16px;
+            border: 2px solid #ffea00;
+            animation: yellowGlowPulse 2s infinite ease-in-out;
+            border-radius: 18px;
             padding: 8px 14px;
             display: flex;
             justify-content: space-between;
@@ -443,16 +477,17 @@
 
         .cart-icon-wrap {
             position: relative;
-            background: var(--accent-color);
+            background: linear-gradient(45deg, #ffd700, #ffea00);
             color: #000;
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 16px;
             font-weight: bold;
+            box-shadow: 0 0 10px #ffd700;
         }
 
         .cart-badge {
@@ -477,9 +512,9 @@
         }
 
         .cart-total-price {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 900;
-            color: #b38f00;
+            color: #d4a000;
         }
 
         .send-order-btn {
@@ -494,7 +529,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 3px 12px rgba(37, 211, 102, 0.4);
         }
 
         .modal-overlay {
@@ -518,7 +553,8 @@
 
         .modal-content {
             background: var(--bg-card);
-            border: 2px solid var(--accent-color);
+            border: 2px solid #ffea00;
+            animation: yellowGlowPulse 3s infinite;
             width: 100%;
             max-width: 420px;
             border-radius: 18px;
@@ -533,7 +569,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--yellow-glow);
             padding-bottom: 8px;
             font-size: 0.95rem;
         }
@@ -550,7 +586,7 @@
             display: flex;
             justify-content: space-between;
             padding: 7px 0;
-            border-bottom: 1px dashed var(--border-color);
+            border-bottom: 1px dashed var(--yellow-glow);
             font-size: 0.82rem;
         }
 
@@ -563,7 +599,7 @@
         .type-btn {
             flex: 1;
             padding: 8px;
-            border: 1.5px solid var(--border-color);
+            border: 1.5px solid var(--yellow-glow);
             background: var(--bg-primary);
             color: var(--text-muted);
             border-radius: 10px;
@@ -577,10 +613,11 @@
         }
 
         .type-btn.active {
-            border-color: var(--accent-color);
-            background: rgba(255, 215, 0, 0.2);
-            color: #b38f00;
+            border-color: #ffea00;
+            background: rgba(255, 215, 0, 0.25);
+            color: #d4a000;
             font-weight: 800;
+            animation: yellowGlowPulse 2s infinite;
         }
 
         .input-group {
@@ -598,7 +635,7 @@
             width: 100%;
             padding: 8px 10px;
             background: var(--bg-primary);
-            border: 1.5px solid var(--border-color);
+            border: 1.5px solid var(--yellow-glow);
             border-radius: 10px;
             color: var(--text-main);
             font-size: 0.82rem;
@@ -658,7 +695,7 @@
         </div>
     </header>
 
-    <!-- حقل البحث السريع -->
+    <!-- حقل البحث -->
     <div class="search-container">
         <div class="search-box">
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -666,19 +703,15 @@
         </div>
     </div>
 
-    <!-- تبويبات الأقسام التفاعلية (Scrollspy) -->
+    <!-- تبويبات الأقسام -->
     <div class="categories-container">
-        <div class="categories-tabs" id="categoriesTabs">
-            <!-- سيتم توليد التبويبات ديناميكياً -->
-        </div>
+        <div class="categories-tabs" id="categoriesTabs"></div>
     </div>
 
     <!-- غلاف الأطباق الكامل -->
-    <div class="menu-wrapper" id="menuWrapper">
-        <!-- سيتم توليد الأقسام ديناميكياً هنا -->
-    </div>
+    <div class="menu-wrapper" id="menuWrapper"></div>
 
-    <!-- شريط السلة السفلي -->
+    <!-- شريط السلة السفلي المتوهج -->
     <div class="cart-bar" id="cartBar">
         <div class="cart-info">
             <div class="cart-icon-wrap">
@@ -695,7 +728,7 @@
         </button>
     </div>
 
-    <!-- نافذة تأكيد الطلب المودال -->
+    <!-- نافذة المودال -->
     <div class="modal-overlay" id="orderModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -705,7 +738,6 @@
             
             <div id="modalOrderItems"></div>
 
-            <!-- تحديد نوع الطلب -->
             <div class="input-group">
                 <label>نوع الطلب:</label>
                 <div class="order-type-selector">
@@ -721,7 +753,6 @@
                 </div>
             </div>
 
-            <!-- حقل التوصيل الديناميكي -->
             <div class="input-group" id="deliveryGroup" style="display: none;">
                 <label for="deliveryZone">منطقة التوصيل:</label>
                 <select id="deliveryZone" onchange="updateModalTotal()">
@@ -748,10 +779,8 @@
     </div>
 
     <script>
-        // رابط Google Sheets API أو رابط JSON الخاص بك لربط المنيو ديناميكياً
         const GOOGLE_SHEETS_JSON_URL = ""; 
 
-        // قائمة الأقسام الرئيسية المتاحة
         const categoriesConfig = [
             { id: "grills", title: "قسم المشويات", icon: "fa-fire-burner" },
             { id: "appetizers", title: "قسم المقبلات", icon: "fa-bowl-food" },
@@ -760,7 +789,6 @@
             { id: "drinks", title: "قسم المشروبات", icon: "fa-glass-water" }
         ];
 
-        // بيانات المنيو الافتراضية
         let menuData = [
             // المشويات
             { id: 1, name: "كباب عراقي فاخر", category: "grills", price: 14000, desc: "لحم غنم بلدي مع الخضار المشوية والخبز الحار", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80" },
@@ -776,24 +804,19 @@
             // الحلويات
             { id: 12, name: "كنافة بالجبنة النابلسية", category: "desserts", price: 6000, desc: "كنافة ساخنة مقرمشة بالجبنة الذائبة والفستق الحلبي", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=500&q=80" },
             { id: 13, name: "بقلاوة مشكلة بالفستق", category: "desserts", price: 7000, desc: "قطع بقلاوة هشة غنية بالفستق الحلبي والقطر", img: "https://images.unsplash.com/photo-1519676867240-f03562e64548?w=500&q=80" },
-            { id: 14, name: "كيك الشوكولاتة الذائبة (مولتن)", category: "desserts", price: 6500, desc: "كيك شوكولاتة ساخن مع صوص الشوكولاتة الغني", img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500&q=80" },
 
             // الآيس كريم
             { id: 15, name: "آيس كريم صنداي الفراولة", category: "icecream", price: 4000, desc: "كاسات آيس كريم فانيليا مع قطع الفراولة والصوص", img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&q=80" },
             { id: 16, name: "آيس كريم الفستق والزعفران", category: "icecream", price: 5000, desc: "آيس كريم شرقي طبيعي بطعم الزعفران والفستق", img: "https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=500&q=80" },
-            { id: 17, name: "مكس آيس كريم سمسمه", category: "icecream", price: 4500, desc: "تشكيلة نكهات (شوكولاتة، فانيليا، مانجو)", img: "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=500&q=80" },
 
             // المشروبات
             { id: 8, name: "عصير برتقال طبيعي", category: "drinks", price: 3000, desc: "برتقال طازج معصور مع كل طلب", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=500&q=80" },
-            { id: 9, name: "لبن أربيل بالنعناع", category: "drinks", price: 2000, desc: "لبن مخفوق بارد ومُنعش مع أوراق النعناع", img: "https://images.unsplash.com/photo-1571006682858-a458b8a69388?w=500&q=80" },
-            { id: 10, name: "موهيتو سمسمه الخاص", category: "drinks", price: 4000, desc: "شراب الليمون، النعناع الطازج، والصودا الباردة", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80" },
-            { id: 11, name: "شاي خدران عراقي", category: "drinks", price: 1500, desc: "شاي مهيل مخدر على الفحم", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&q=80" }
+            { id: 9, name: "لبن أربيل بالنعناع", category: "drinks", price: 2000, desc: "لبن مخفوق بارد ومُنعش مع أوراق النعناع", img: "https://images.unsplash.com/photo-1571006682858-a458b8a69388?w=500&q=80" }
         ];
 
         let cart = {};
         let selectedOrderType = 'dinein';
 
-        // تحميل البيانات الديناميكية من Google Sheets إذا تم توفير الرابط
         async function fetchMenuFromGoogleSheets() {
             if (!GOOGLE_SHEETS_JSON_URL) return;
             try {
@@ -806,11 +829,10 @@
                     }
                 }
             } catch (err) {
-                console.log("استخدام البيانات المحلية بدلاً من الشيت:", err);
+                console.log("استخدام البيانات المحلية:", err);
             }
         }
 
-        // بناء الواجهة وتمرير الأقسام والتبويبات
         function buildLayout() {
             const tabsContainer = document.getElementById('categoriesTabs');
             const wrapper = document.getElementById('menuWrapper');
@@ -819,7 +841,6 @@
             wrapper.innerHTML = '';
 
             categoriesConfig.forEach((cat, index) => {
-                // إنشاء التبويب
                 const tabBtn = document.createElement('button');
                 tabBtn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
                 tabBtn.id = `tab-${cat.id}`;
@@ -827,14 +848,15 @@
                 tabBtn.innerHTML = `<i class="fa-solid ${cat.icon}"></i> ${cat.title.replace('قسم ', '')}`;
                 tabsContainer.appendChild(tabBtn);
 
-                // إنشاء القسم والفاصل الكبير
                 const section = document.createElement('section');
                 section.id = `sec-${cat.id}`;
                 section.innerHTML = `
-                    <div class="section-divider">
-                        <div class="section-title-lg">
-                            <i class="fa-solid ${cat.icon}"></i>
-                            <span>${cat.title}</span>
+                    <div class="square-section-divider">
+                        <div class="square-divider-card">
+                            <div class="square-icon-box">
+                                <i class="fa-solid ${cat.icon}"></i>
+                            </div>
+                            <div class="square-divider-title">${cat.title}</div>
                         </div>
                     </div>
                     <div class="menu-container" id="grid-${cat.id}"></div>
@@ -849,7 +871,6 @@
                 if (!gridContainer) return;
 
                 gridContainer.innerHTML = '';
-                
                 const items = (itemsToRender || menuData).filter(item => item.category === cat.id);
                 
                 if(items.length === 0) {
@@ -892,10 +913,8 @@
             }
         }
 
-        // Scrollspy للتنقل السلس
         window.addEventListener('scroll', () => {
             let current = categoriesConfig[0].id;
-
             categoriesConfig.forEach(cat => {
                 const section = document.getElementById(`sec-${cat.id}`);
                 if (section) {
@@ -905,7 +924,6 @@
                     }
                 }
             });
-
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             const activeTab = document.getElementById(`tab-${current}`);
             if (activeTab) activeTab.classList.add('active');
@@ -917,7 +935,6 @@
                 renderAllSections();
                 return;
             }
-
             const filtered = menuData.filter(dish => 
                 dish.name.toLowerCase().includes(query) || 
                 dish.desc.toLowerCase().includes(query)
@@ -1012,7 +1029,7 @@
             if (selectedOrderType === 'delivery') {
                 deliveryFee = parseInt(document.getElementById('deliveryZone').value) || 0;
                 modalItemsContainer.innerHTML += `
-                    <div class="order-summary-item" style="color: #b38f00; font-weight: bold;">
+                    <div class="order-summary-item" style="color: #d4a000; font-weight: bold;">
                         <span>أجور التوصيل:</span>
                         <span>+ ${deliveryFee.toLocaleString()} د.ع</span>
                     </div>
@@ -1022,9 +1039,9 @@
             const grandTotal = itemsTotal + deliveryFee;
 
             modalItemsContainer.innerHTML += `
-                <div class="order-summary-item" style="font-weight: 900; border-top: 2px solid var(--accent-color); margin-top: 10px; padding-top: 10px; font-size: 0.9rem;">
+                <div class="order-summary-item" style="font-weight: 900; border-top: 2px solid var(--yellow-glow); margin-top: 10px; padding-top: 10px; font-size: 0.9rem;">
                     <span>المجموع الكلي:</span>
-                    <span style="color: #b38f00;">${grandTotal.toLocaleString()} د.ع</span>
+                    <span style="color: #d4a000;">${grandTotal.toLocaleString()} د.ع</span>
                 </div>
             `;
         }
@@ -1095,7 +1112,6 @@
             renderAllSections();
         }
 
-        // التهيئة الأولية
         renderUI();
         fetchMenuFromGoogleSheets();
     </script>
