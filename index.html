@@ -27,7 +27,7 @@
             --accent-text: #ffffff;
             --border-color: rgba(197, 155, 39, 0.35);
             --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            --pattern-opacity: 0.05;
+            --pattern-opacity: 0.06;
         }
 
         .dark {
@@ -43,7 +43,7 @@
             --accent-text: #000000;
             --border-color: rgba(212, 175, 55, 0.25);
             --shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-            --pattern-opacity: 0.08;
+            --pattern-opacity: 0.1;
         }
 
         * {
@@ -114,6 +114,7 @@
             overflow-x: hidden;
         }
 
+        /* الزخرفة والمخطوطة الإسلامية في خلفية الصفحة */
         body::before {
             content: "";
             position: fixed;
@@ -121,18 +122,37 @@
             left: 0;
             width: 200%;
             height: 200%;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%23C59B27' stroke-width='1'/%3E%3Cpath d='M40 10 L70 40 L40 70 L10 40 Z' fill='none' stroke='%23C59B27' stroke-width='0.8'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%23C59B27' stroke-width='0.8'/%3E%3Cpath d='M0 0 L80 80 M80 0 L0 80' stroke='%23C59B27' stroke-width='0.5' opacity='0.5'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M50 0 L100 50 L50 100 L0 50 Z' fill='none' stroke='%23C59B27' stroke-width='1.2'/%3E%3Cpath d='M50 12 L88 50 L50 88 L12 50 Z' fill='none' stroke='%23C59B27' stroke-width='0.8'/%3E%3Ccircle cx='50' cy='50' r='18' fill='none' stroke='%23C59B27' stroke-width='1'/%3E%3Cpath d='M50 38 L62 50 L50 62 L38 50 Z' fill='%23C59B27' opacity='0.3'/%3E%3Cpath d='M0 0 L100 100 M100 0 L0 100' stroke='%23C59B27' stroke-width='0.5' opacity='0.3'/%3E%3C/svg%3E");
             background-repeat: repeat;
-            background-size: 80px 80px;
+            background-size: 100px 100px;
             opacity: var(--pattern-opacity);
-            z-index: -1;
+            z-index: -2;
             pointer-events: none;
-            animation: moveIslamicPattern 40s linear infinite;
+            animation: moveIslamicPattern 45s linear infinite;
+        }
+
+        /* مخطوطة إسلامية جمالية علوية شفافة */
+        body::after {
+            content: "";
+            position: absolute;
+            top: 260px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 800px;
+            height: 200px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 100'%3E%3Cpath d='M250 10 C 200 40, 100 10, 0 50 C 100 90, 200 60, 250 90 C 300 60, 400 90, 500 50 C 400 10, 300 40, 250 10 Z' fill='none' stroke='%23C59B27' stroke-width='1.5' opacity='0.25'/%3E%3Ccircle cx='250' cy='50' r='8' fill='%23C59B27' opacity='0.3'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.6;
         }
 
         @keyframes moveIslamicPattern {
             0% { transform: translate(0, 0); }
-            100% { transform: translate(-80px, -80px); }
+            100% { transform: translate(-100px, -100px); }
         }
 
         /* --- الهيدر الكبيرة والمدمجة بكسوة غلاف كاملاً --- */
@@ -207,7 +227,7 @@
             gap: 16px;
         }
 
-        /* تكبير اللوجو وتوضيحه أمام الغلاف */
+        /* اللوجو الهيدر */
         .logo-icon {
             width: 80px;
             height: 80px;
@@ -230,7 +250,7 @@
             object-fit: cover;
         }
 
-        /* تغيير خط اسم المطعم وتنسيقه فوق الغلاف */
+        /* اسم المطعم */
         .brand-title {
             cursor: pointer;
             user-select: none;
@@ -948,19 +968,20 @@
         /* تنسيقات لوحة تحكم التعديل والإضافة */
         .admin-tab-btns {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             margin-bottom: 12px;
         }
         .admin-tab {
             flex: 1;
-            padding: 8px;
+            padding: 7px 4px;
             border: 1px solid var(--border-color);
             background: var(--bg-primary);
             color: var(--text-main);
             border-radius: 8px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: bold;
             cursor: pointer;
+            text-align: center;
         }
         .admin-tab.active {
             background: var(--accent-color);
@@ -1022,7 +1043,7 @@
 
     <!-- الهيدر المكبر مع صورة الغلاف واللوجو والاسم -->
     <header>
-        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=1000&q=80" alt="غلاف مطعم سمسمه" class="header-bg-img">
+        <img id="headerCoverImg" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=1000&q=80" alt="غلاف مطعم سمسمه" class="header-bg-img">
         <div class="header-overlay"></div>
 
         <div class="header-top-bar">
@@ -1035,9 +1056,9 @@
         </div>
 
         <div class="header-hero-content">
-            <div class="logo-icon" id="mainLogo" title="مطعم سمسمه">
-                <img src="IMG_2408.jpeg" alt="لوجو مطعم سمسمه" onerror="this.style.display='none'">
-                <i class="fa-solid fa-utensils"></i>
+            <div class="logo-icon" id="mainLogoWrap">
+                <img id="headerLogoImg" src="IMG_2408.jpeg" alt="لوجو مطعم سمسمه" onerror="this.style.display='none'; document.getElementById('fallbackIcon').style.display='block';">
+                <i class="fa-solid fa-utensils" id="fallbackIcon" style="display: none;"></i>
             </div>
             <!-- عند النقر على اسم المطعم 10 مرات يتم فتح الإعدادات -->
             <div class="brand-title" onclick="handleBrandClick()">
@@ -1166,17 +1187,18 @@
         </div>
     </div>
 
-    <!-- نافذة لوحة تحكم الإدارة المخفية (إضافة وتعديل الأطباق والصور) -->
+    <!-- نافذة لوحة تحكم الإدارة المخفية (إضافة وتعديل الأطباق والصور والغلاف واللوجو) -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fa-solid fa-pen-to-square"></i> لوحة إدارة الأطباق</h3>
+                <h3><i class="fa-solid fa-pen-to-square"></i> لوحة إدارة المطعم</h3>
                 <button class="close-modal" onclick="closeAdminModal()">&times;</button>
             </div>
 
             <div class="admin-tab-btns">
-                <button class="admin-tab active" id="tabAddDish" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> إضافة طبق جديد</button>
-                <button class="admin-tab" id="tabEditDish" onclick="switchAdminTab('edit')"><i class="fa-solid fa-sliders"></i> تعديل الأسماء والأسباب</button>
+                <button class="admin-tab active" id="tabAddDish" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> إضافة طبق</button>
+                <button class="admin-tab" id="tabEditDish" onclick="switchAdminTab('edit')"><i class="fa-solid fa-sliders"></i> تعديل الأطباق</button>
+                <button class="admin-tab" id="tabEditHeader" onclick="switchAdminTab('header')"><i class="fa-solid fa-image"></i> الغلاف واللوجو</button>
             </div>
 
             <!-- تبويب إضافة طبق جديد -->
@@ -1219,11 +1241,39 @@
             <!-- تبويب تعديل الأطباق الحالية -->
             <div id="adminEditSection" style="display: none;">
                 <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px;">عدّل الأسماء والأسباب مباشرة، ثم اضغط حفظ التغيرات:</p>
-                <div id="adminDishesList" style="max-height: 300px; overflow-y: auto; padding-left: 5px;"></div>
+                <div id="adminDishesList" style="max-height: 280px; overflow-y: auto; padding-left: 5px;"></div>
                 <button class="submit-whatsapp-btn" style="background: var(--accent-color); margin-top: 15px;" onclick="saveDishesEdits()">
                     <i class="fa-solid fa-floppy-disk"></i> حفظ كافة التعديلات
                 </button>
             </div>
+
+            <!-- الميزة ١: تبويب تعديل صورة الغلاف واللوجو -->
+            <div id="adminHeaderSection" style="display: none;">
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px;">تغيير صورة الغلاف العلوية واللوجو الخاص بالمطعم:</p>
+                
+                <div class="input-group">
+                    <label>صورة الغلاف (Cover Image):</label>
+                    <input type="file" accept="image/*" onchange="handleHeaderImgUpload(event, 'cover')" style="margin-bottom: 6px;">
+                    <input type="text" id="coverUrlInput" placeholder="أو وضع رابط صورة الغلاف مباشر..." oninput="setHeaderImgFromUrl(this.value, 'cover')">
+                    <div class="img-preview-box" id="coverPreviewBox">
+                        <span style="font-size:0.75rem; color:var(--text-muted);">معاينة صورة الغلاف</span>
+                    </div>
+                </div>
+
+                <div class="input-group" style="margin-top: 15px;">
+                    <label>صورة اللوجو (Logo Image):</label>
+                    <input type="file" accept="image/*" onchange="handleHeaderImgUpload(event, 'logo')" style="margin-bottom: 6px;">
+                    <input type="text" id="logoUrlInput" placeholder="أو وضع رابط صورة اللوجو مباشر..." oninput="setHeaderImgFromUrl(this.value, 'logo')">
+                    <div class="img-preview-box" id="logoPreviewBox" style="height: 70px; width: 70px; border-radius: 50%; margin: 6px auto;">
+                        <span style="font-size:0.65rem; color:var(--text-muted);">معاينة اللوجو</span>
+                    </div>
+                </div>
+
+                <button class="submit-whatsapp-btn" style="background: var(--accent-color); margin-top: 15px;" onclick="saveHeaderBrandImages()">
+                    <i class="fa-solid fa-floppy-disk"></i> حفظ الغلاف واللوجو
+                </button>
+            </div>
+
         </div>
     </div>
 
@@ -1236,6 +1286,9 @@
                     splash.classList.add('fade-out');
                 }
             }, 2000);
+            
+            // تحميل صور الغلاف واللوجو المحفوظة
+            loadHeaderBrandImages();
         });
 
         /* --- آلية حماية صفحة الإعدادات عبر 10 نقرات متتالية على اسم المطعم --- */
@@ -1247,7 +1300,7 @@
             
             clearTimeout(clickTimer);
             clickTimer = setTimeout(() => {
-                clickCount = 0; // إعادة تعيين العدّاد بعد ثانيتين إذا توقف النقر
+                clickCount = 0;
             }, 2000);
 
             if (clickCount === 10) {
@@ -1300,6 +1353,10 @@
         let selectedOrderType = 'dinein';
         let scrollObserver;
         let currentUploadedImgBase64 = "";
+
+        // متغيرات مؤقتة لحفظ الغلاف واللوجو
+        let tempCoverImg = "";
+        let tempLogoImg = "";
 
         function toggleSidebar() {
             document.getElementById('sidebarOverlay').classList.toggle('active');
@@ -1689,18 +1746,15 @@
         }
 
         function switchAdminTab(tab) {
-            if(tab === 'add') {
-                document.getElementById('adminAddSection').style.display = 'block';
-                document.getElementById('adminEditSection').style.display = 'none';
-                document.getElementById('tabAddDish').classList.add('active');
-                document.getElementById('tabEditDish').classList.remove('active');
-            } else {
-                document.getElementById('adminAddSection').style.display = 'none';
-                document.getElementById('adminEditSection').style.display = 'block';
-                document.getElementById('tabAddDish').classList.remove('active');
-                document.getElementById('tabEditDish').classList.add('active');
-                renderAdminDishesList();
-            }
+            document.getElementById('adminAddSection').style.display = tab === 'add' ? 'block' : 'none';
+            document.getElementById('adminEditSection').style.display = tab === 'edit' ? 'block' : 'none';
+            document.getElementById('adminHeaderSection').style.display = tab === 'header' ? 'block' : 'none';
+
+            document.getElementById('tabAddDish').classList.toggle('active', tab === 'add');
+            document.getElementById('tabEditDish').classList.toggle('active', tab === 'edit');
+            document.getElementById('tabEditHeader').classList.toggle('active', tab === 'header');
+
+            if(tab === 'edit') renderAdminDishesList();
         }
 
         function previewUploadedImage(event) {
@@ -1719,6 +1773,67 @@
             if(url.trim() !== '') {
                 currentUploadedImgBase64 = url;
                 document.getElementById('imgPreviewBox').innerHTML = `<img src="${url}" alt="معاينة" onerror="this.parentNode.innerHTML='رابط الصورة غير صالح'">`;
+            }
+        }
+
+        /* الميزة ١: إدارات تعديل الغلاف واللوجو */
+        function handleHeaderImgUpload(event, type) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if(type === 'cover') {
+                        tempCoverImg = e.target.result;
+                        document.getElementById('coverPreviewBox').innerHTML = `<img src="${e.target.result}" alt="غلاف">`;
+                    } else {
+                        tempLogoImg = e.target.result;
+                        document.getElementById('logoPreviewBox').innerHTML = `<img src="${e.target.result}" alt="لوجو" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function setHeaderImgFromUrl(url, type) {
+            if(url.trim() !== '') {
+                if(type === 'cover') {
+                    tempCoverImg = url;
+                    document.getElementById('coverPreviewBox').innerHTML = `<img src="${url}" alt="غلاف">`;
+                } else {
+                    tempLogoImg = url;
+                    document.getElementById('logoPreviewBox').innerHTML = `<img src="${url}" alt="لوجو" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+                }
+            }
+        }
+
+        function saveHeaderBrandImages() {
+            if (tempCoverImg) {
+                localStorage.setItem('simsimah_cover', tempCoverImg);
+                document.getElementById('headerCoverImg').src = tempCoverImg;
+            }
+            if (tempLogoImg) {
+                localStorage.setItem('simsimah_logo', tempLogoImg);
+                const logoImg = document.getElementById('headerLogoImg');
+                logoImg.src = tempLogoImg;
+                logoImg.style.display = 'block';
+                document.getElementById('fallbackIcon').style.display = 'none';
+            }
+            alert('تم حفظ صورة الغلاف واللوجو بنجاح!');
+            closeAdminModal();
+        }
+
+        function loadHeaderBrandImages() {
+            const savedCover = localStorage.getItem('simsimah_cover');
+            const savedLogo = localStorage.getItem('simsimah_logo');
+
+            if (savedCover) {
+                document.getElementById('headerCoverImg').src = savedCover;
+            }
+            if (savedLogo) {
+                const logoImg = document.getElementById('headerLogoImg');
+                logoImg.src = savedLogo;
+                logoImg.style.display = 'block';
+                document.getElementById('fallbackIcon').style.display = 'none';
             }
         }
 
@@ -1746,7 +1861,6 @@
             menuData.push(newDish);
             localStorage.setItem('simsimah_menu', JSON.stringify(menuData));
 
-            // إعادة تعيين الحقول
             document.getElementById('newDishName').value = '';
             document.getElementById('newDishPrice').value = '';
             document.getElementById('newDishDesc').value = '';
