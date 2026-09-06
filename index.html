@@ -54,7 +54,10 @@
             transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
-        html { scroll-behavior: smooth; }
+        /* 3. التمرير السلس بين الأقسام */
+        html { 
+            scroll-behavior: smooth; 
+        }
 
         body {
             background-color: var(--bg-primary);
@@ -73,7 +76,6 @@
             left: 0;
             width: 200%;
             height: 200%;
-            /* نقش إسلامي ثماني هندسي متناسق */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%23C59B27' stroke-width='1'/%3E%3Cpath d='M40 10 L70 40 L40 70 L10 40 Z' fill='none' stroke='%23C59B27' stroke-width='0.8'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%23C59B27' stroke-width='0.8'/%3E%3Cpath d='M0 0 L80 80 M80 0 L0 80' stroke='%23C59B27' stroke-width='0.5' opacity='0.5'/%3E%3C/svg%3E");
             background-repeat: repeat;
             background-size: 80px 80px;
@@ -83,14 +85,9 @@
             animation: moveIslamicPattern 40s linear infinite;
         }
 
-        /* أنيميشن حركة النقوش البطيئة والناعمة */
         @keyframes moveIslamicPattern {
-            0% {
-                transform: translate(0, 0);
-            }
-            100% {
-                transform: translate(-80px, -80px);
-            }
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-80px, -80px); }
         }
 
         header {
@@ -184,7 +181,6 @@
             font-size: 15px;
         }
 
-        /* صورة غلاف للموقع (Hero Banner) */
         .hero-banner {
             max-width: 800px;
             margin: 10px auto 0 auto;
@@ -211,6 +207,12 @@
             height: 100%;
             object-fit: cover;
             z-index: 1;
+            animation: slowZoom 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes slowZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.08); }
         }
 
         .hero-overlay {
@@ -253,7 +255,7 @@
             opacity: 0.9;
         }
 
-        /* قائمة جانبية للأقسام (Sidebar Drawer) */
+        /* القائمة الجانبية */
         .sidebar-overlay {
             position: fixed;
             top: 0;
@@ -472,6 +474,11 @@
             align-items: center;
             gap: 6px;
             text-decoration: none;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s;
+        }
+
+        .tab-btn:active {
+            transform: scale(0.92);
         }
 
         .tab-btn.active {
@@ -536,6 +543,7 @@
             .hero-card { height: 220px; }
         }
 
+        /* 1. أنيميشن الظهور عند التمرير (Scroll Reveal) */
         .dish-card {
             background: var(--bg-card);
             border: 1.5px solid var(--border-color);
@@ -544,8 +552,15 @@
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
             cursor: pointer;
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .dish-card.reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .dish-card:hover {
@@ -651,6 +666,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.15s ease;
+        }
+
+        .qty-btn:active {
+            transform: scale(0.82);
         }
 
         .qty-number {
@@ -699,6 +719,17 @@
             font-weight: bold;
         }
 
+        /* 2. نبض أيقونة السلة عند إضافة عنصر */
+        .cart-icon-wrap.cart-pulse {
+            animation: cartPulse 0.4s ease-in-out;
+        }
+
+        @keyframes cartPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
         .cart-badge {
             position: absolute;
             top: -6px;
@@ -718,6 +749,7 @@
         .cart-total-title { font-size: 0.7rem; color: var(--text-muted); }
         .cart-total-price { font-size: 0.9rem; font-weight: 900; color: var(--accent-color); }
 
+        /* 4. التوهج المائي الذهبي لزر إرسال الطلب */
         .send-order-btn {
             background: #25d366;
             color: white;
@@ -731,6 +763,39 @@
             align-items: center;
             gap: 6px;
             box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .send-order-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+            transform: rotate(30deg);
+            animation: goldShimmer 3.5s infinite ease-in-out;
+        }
+
+        @keyframes goldShimmer {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            20% { transform: translateX(100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+
+        /* 2. عنصر طيران المادة للسلة */
+        .flying-dot {
+            position: fixed;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            box-shadow: 0 0 10px var(--accent-color);
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
         /* Modals */
@@ -743,14 +808,21 @@
             background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(5px);
             z-index: 1000;
-            display: none;
+            display: flex;
             align-items: center;
             justify-content: center;
             padding: 15px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
-        .modal-overlay.active { display: flex; }
+        .modal-overlay.active { 
+            opacity: 1;
+            pointer-events: auto;
+        }
 
+        /* 5. أنيميشن النوافذ المنبثقة */
         .modal-content {
             background: var(--bg-card);
             border: 2px solid var(--accent-color);
@@ -761,6 +833,12 @@
             box-shadow: var(--shadow);
             max-height: 85vh;
             overflow-y: auto;
+            transform: scale(0.75);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
         }
 
         .modal-header {
@@ -856,6 +934,20 @@
             justify-content: center;
             align-items: center;
             gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-whatsapp-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: rotate(30deg);
+            animation: goldShimmer 3.5s infinite ease-in-out;
         }
     </style>
 </head>
@@ -865,7 +957,6 @@
     <header>
         <div class="header-top">
             <div class="brand">
-                <!-- زر فتح القائمة الجانبية -->
                 <button class="menu-drawer-btn" onclick="toggleSidebar()" title="أقسام المنيو">
                     <i class="fa-solid fa-bars"></i>
                 </button>
@@ -910,16 +1001,14 @@
         </div>
     </div>
 
-    <!-- القائمة الجانبية لسامي الأقسام (Sidebar Drawer) -->
+    <!-- القائمة الجانبية للأقسام -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
     <div class="sidebar-drawer" id="sidebarDrawer">
         <div class="sidebar-header">
             <h3><i class="fa-solid fa-list-ul"></i> أقسام قائمة الطعام</h3>
             <button class="close-sidebar-btn" onclick="closeSidebar()">&times;</button>
         </div>
-        <ul class="sidebar-menu-list" id="sidebarMenuList">
-            <!-- تتولد ديناميكياً من السكريبت -->
-        </ul>
+        <ul class="sidebar-menu-list" id="sidebarMenuList"></ul>
     </div>
 
     <!-- حقل البحث السريع -->
@@ -941,7 +1030,7 @@
     <!-- شريط السلة السفلي -->
     <div class="cart-bar" id="cartBar">
         <div class="cart-info">
-            <div class="cart-icon-wrap">
+            <div class="cart-icon-wrap" id="cartIconWrap">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span class="cart-badge" id="cartBadge">0</span>
             </div>
@@ -1021,8 +1110,6 @@
     </div>
 
     <script>
-        const GOOGLE_SHEETS_JSON_URL = ""; 
-
         const categoriesConfig = [
             { id: "grills", title: "قسم المشويات", icon: "fa-fire-burner" },
             { id: "appetizers", title: "قسم المقبلات", icon: "fa-bowl-food" },
@@ -1058,8 +1145,8 @@
 
         let cart = {};
         let selectedOrderType = 'dinein';
+        let scrollObserver;
 
-        // القائمة الجانبية (Sidebar)
         function toggleSidebar() {
             document.getElementById('sidebarOverlay').classList.toggle('active');
             document.getElementById('sidebarDrawer').classList.toggle('active');
@@ -1080,7 +1167,6 @@
             wrapper.innerHTML = '';
 
             categoriesConfig.forEach((cat, index) => {
-                // بناء التبويبات الأفقية
                 const tabBtn = document.createElement('button');
                 tabBtn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
                 tabBtn.id = `tab-${cat.id}`;
@@ -1088,7 +1174,6 @@
                 tabBtn.innerHTML = `<i class="fa-solid ${cat.icon}"></i> ${cat.title.replace('قسم ', '')}`;
                 tabsContainer.appendChild(tabBtn);
 
-                // بناء العناصر في القائمة الجانبية
                 const sidebarItem = document.createElement('li');
                 sidebarItem.className = 'sidebar-menu-item';
                 sidebarItem.innerHTML = `
@@ -1099,7 +1184,6 @@
                 `;
                 sidebarList.appendChild(sidebarItem);
 
-                // بناء الأقسام
                 const section = document.createElement('section');
                 section.id = `sec-${cat.id}`;
                 section.innerHTML = `
@@ -1112,6 +1196,22 @@
                     <div class="menu-container" id="grid-${cat.id}"></div>
                 `;
                 wrapper.appendChild(section);
+            });
+        }
+
+        function setupScrollObserver() {
+            if (scrollObserver) scrollObserver.disconnect();
+
+            scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal-visible');
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            document.querySelectorAll('.dish-card').forEach(card => {
+                scrollObserver.observe(card);
             });
         }
 
@@ -1145,9 +1245,9 @@
                             <div class="dish-footer">
                                 <div class="dish-price">${dish.price.toLocaleString()} د.ع</div>
                                 <div class="quantity-control" onclick="event.stopPropagation();">
-                                    <button class="qty-btn" onclick="updateQty(${dish.id}, -1)">-</button>
+                                    <button class="qty-btn" onclick="updateQty(${dish.id}, -1, event)">-</button>
                                     <span class="qty-number" id="qty-${dish.id}">${qty}</span>
-                                    <button class="qty-btn" onclick="updateQty(${dish.id}, 1)">+</button>
+                                    <button class="qty-btn" onclick="updateQty(${dish.id}, 1, event)">+</button>
                                 </div>
                             </div>
                         </div>
@@ -1155,6 +1255,36 @@
                     gridContainer.appendChild(card);
                 });
             });
+
+            setupScrollObserver();
+        }
+
+        function triggerFlyToCartAnimation(btnElement) {
+            const cartWrap = document.getElementById('cartIconWrap');
+            if (!btnElement || !cartWrap) return;
+
+            const btnRect = btnElement.getBoundingClientRect();
+            const cartRect = cartWrap.getBoundingClientRect();
+
+            const dot = document.createElement('div');
+            dot.className = 'flying-dot';
+            dot.style.left = `${btnRect.left + btnRect.width / 2 - 8}px`;
+            dot.style.top = `${btnRect.top + btnRect.height / 2 - 8}px`;
+            document.body.appendChild(dot);
+
+            requestAnimationFrame(() => {
+                dot.style.left = `${cartRect.left + cartRect.width / 2 - 8}px`;
+                dot.style.top = `${cartRect.top + cartRect.height / 2 - 8}px`;
+                dot.style.transform = 'scale(0.3)';
+                dot.style.opacity = '0.5';
+            });
+
+            setTimeout(() => {
+                dot.remove();
+                cartWrap.classList.remove('cart-pulse');
+                void cartWrap.offsetWidth;
+                cartWrap.classList.add('cart-pulse');
+            }, 600);
         }
 
         function openLightbox(dishId) {
@@ -1171,9 +1301,9 @@
                 <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
                     <span style="font-weight: 800; font-size: 0.9rem;">الكمية المطلوب إضافتها:</span>
                     <div class="quantity-control" style="scale: 1.2;">
-                        <button class="qty-btn" onclick="updateQty(${dish.id}, -1)">-</button>
+                        <button class="qty-btn" onclick="updateQty(${dish.id}, -1, event)">-</button>
                         <span class="qty-number" id="qty-${dish.id}">${qty}</span>
-                        <button class="qty-btn" onclick="updateQty(${dish.id}, 1)">+</button>
+                        <button class="qty-btn" onclick="updateQty(${dish.id}, 1, event)">+</button>
                     </div>
                 </div>
             `;
@@ -1225,9 +1355,13 @@
             renderAllSections(filtered);
         }
 
-        function updateQty(dishId, change) {
+        function updateQty(dishId, change, event = null) {
             if (!cart[dishId]) cart[dishId] = 0;
             cart[dishId] += change;
+
+            if (change > 0 && event && event.target) {
+                triggerFlyToCartAnimation(event.target);
+            }
 
             if (cart[dishId] <= 0) {
                 delete cart[dishId];
