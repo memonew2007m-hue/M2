@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl" class="light">
 <head>
     <meta charset="UTF-8">
@@ -8,8 +8,8 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="manifest" href='data:application/manifest+json,{"name":"مطعم سمسمه","short_name":"سمسمه","start_url":".","display":"standalone","background_color":"#ffffff","theme_color":"#C59B27","icons":[{"src":"https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=192&q=80","sizes":"192x192","type":"image/jpeg"}]}'>
     
-    <!-- خط القاهرة -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- خط القاهرة + خط الرقعة -->
+    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -54,7 +54,53 @@
             transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
-        /* 3. التمرير السلس بين الأقسام */
+        /* شاشة الترحيب */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        #splash-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .splash-content {
+            text-align: center;
+            color: #C59B27;
+            animation: zoomInSplash 0.8s ease-out;
+        }
+
+        .splash-title {
+            font-family: 'Aref Ruqaa', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(197, 155, 39, 0.5);
+        }
+
+        .splash-sub {
+            font-size: 1.1rem;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        @keyframes zoomInSplash {
+            0% { transform: scale(0.6); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         html { 
             scroll-behavior: smooth; 
         }
@@ -68,7 +114,6 @@
             overflow-x: hidden;
         }
 
-        /* خلفية النقوش الإسلامية الشفافة والمتحركة */
         body::before {
             content: "";
             position: fixed;
@@ -111,7 +156,7 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .menu-drawer-btn {
@@ -128,19 +173,22 @@
             font-size: 18px;
         }
 
+        /* تكبير اللوجو وتوضيحه */
         .logo-icon {
-            width: 42px;
-            height: 42px;
+            width: 58px;
+            height: 58px;
             background: var(--accent-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #fff;
-            font-size: 18px;
-            box-shadow: 0 0 12px var(--accent-glow);
+            font-size: 24px;
+            box-shadow: 0 0 15px var(--accent-glow);
             overflow: hidden;
-            border: 2px solid var(--accent-hover);
+            border: 2.5px solid var(--accent-color);
+            flex-shrink: 0;
+            cursor: pointer;
         }
 
         .logo-icon img {
@@ -149,36 +197,50 @@
             object-fit: cover;
         }
 
+        /* تغيير خط اسم المطعم إلى خط الرقعة */
         .brand-title h1 {
-            font-size: 1.2rem;
-            font-weight: 900;
-            color: var(--text-main);
+            font-family: 'Aref Ruqaa', serif;
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: var(--accent-color);
             line-height: 1.1;
+            letter-spacing: 0.5px;
         }
 
         .brand-title p {
-            font-size: 0.72rem;
-            color: var(--accent-color);
+            font-size: 0.75rem;
+            color: var(--text-muted);
             font-weight: 700;
         }
 
         .controls {
             display: flex;
             gap: 8px;
+            align-items: center;
         }
 
-        .theme-toggle-btn {
+        .theme-toggle-btn, .admin-secret-btn {
             background: var(--bg-card);
             border: 1.5px solid var(--border-color);
             color: var(--accent-color);
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 10px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 15px;
+        }
+
+        /* زر الإدارة المخفي المصمم بشكل تمويهي خفيف */
+        .admin-secret-btn {
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+
+        .admin-secret-btn:hover {
+            opacity: 1;
         }
 
         .hero-banner {
@@ -255,7 +317,6 @@
             opacity: 0.9;
         }
 
-        /* القائمة الجانبية */
         .sidebar-overlay {
             position: fixed;
             top: 0;
@@ -543,7 +604,6 @@
             .hero-card { height: 220px; }
         }
 
-        /* 1. أنيميشن الظهور عند التمرير (Scroll Reveal) */
         .dish-card {
             background: var(--bg-card);
             border: 1.5px solid var(--border-color);
@@ -719,7 +779,6 @@
             font-weight: bold;
         }
 
-        /* 2. نبض أيقونة السلة عند إضافة عنصر */
         .cart-icon-wrap.cart-pulse {
             animation: cartPulse 0.4s ease-in-out;
         }
@@ -749,7 +808,6 @@
         .cart-total-title { font-size: 0.7rem; color: var(--text-muted); }
         .cart-total-price { font-size: 0.9rem; font-weight: 900; color: var(--accent-color); }
 
-        /* 4. التوهج المائي الذهبي لزر إرسال الطلب */
         .send-order-btn {
             background: #25d366;
             color: white;
@@ -785,7 +843,6 @@
             100% { transform: translateX(100%) rotate(30deg); }
         }
 
-        /* 2. عنصر طيران المادة للسلة */
         .flying-dot {
             position: fixed;
             width: 16px;
@@ -822,12 +879,11 @@
             pointer-events: auto;
         }
 
-        /* 5. أنيميشن النوافذ المنبثقة */
         .modal-content {
             background: var(--bg-card);
             border: 2px solid var(--accent-color);
             width: 100%;
-            max-width: 420px;
+            max-width: 440px;
             border-radius: 18px;
             padding: 16px;
             box-shadow: var(--shadow);
@@ -949,9 +1005,81 @@
             transform: rotate(30deg);
             animation: goldShimmer 3.5s infinite ease-in-out;
         }
+
+        /* تنسيقات لوحة تحكم التعديل والإضافة */
+        .admin-tab-btns {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .admin-tab {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-main);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .admin-tab.active {
+            background: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
+        }
+        .admin-dish-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .admin-dish-row input {
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-main);
+            font-size: 0.8rem;
+        }
+        .admin-dish-row .btn-del {
+            background: #d9534f;
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .img-preview-box {
+            width: 100%;
+            height: 100px;
+            border: 1.5px dashed var(--border-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+        .img-preview-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
+
+    <!-- شاشة العرض الترحيبي (2 ثانية) -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <div class="splash-title">أهلاً وسهلاً</div>
+            <div class="splash-sub">مطعم سمسمه ينوركم</div>
+        </div>
+    </div>
 
     <!-- الهيدر الرئيسي -->
     <header>
@@ -960,7 +1088,7 @@
                 <button class="menu-drawer-btn" onclick="toggleSidebar()" title="أقسام المنيو">
                     <i class="fa-solid fa-bars"></i>
                 </button>
-                <div class="logo-icon">
+                <div class="logo-icon" id="mainLogo" title="مطعم سمسمه" onclick="openAdminModal()">
                     <img src="IMG_2408.jpeg" alt="لوجو مطعم سمسمه" onerror="this.style.display='none'">
                     <i class="fa-solid fa-utensils"></i>
                 </div>
@@ -970,6 +1098,10 @@
                 </div>
             </div>
             <div class="controls">
+                <!-- زر مخفي للإدارة سري وفي الترتيب الهادئ -->
+                <button class="admin-secret-btn" onclick="openAdminModal()" title="لوحة التعديل والتحكم">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
                 <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="تغيير النمط">
                     <i class="fa-solid fa-moon" id="themeIcon"></i>
                 </button>
@@ -995,7 +1127,7 @@
             <div class="hero-overlay"></div>
             <div class="hero-content">
                 <span class="hero-badge"><i class="fa-solid fa-crown"></i> المذاق العراقي الأصيل</span>
-                <h2 class="hero-title">أهلاً بكم في مطعم سمسمه</h2>
+                <h2 class="hero-title">أهلاً لكم في مطعم سمسمه</h2>
                 <p class="hero-subtitle">استمتع بأطيب المشويات والمأكولات الطازجة يومياً</p>
             </div>
         </div>
@@ -1109,7 +1241,78 @@
         </div>
     </div>
 
+    <!-- نافذة لوحة تحكم الإدارة المخفية (إضافة وتعديل الأطباق والصور) -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-pen-to-square"></i> لوحة إدارة الأطباق</h3>
+                <button class="close-modal" onclick="closeAdminModal()">&times;</button>
+            </div>
+
+            <div class="admin-tab-btns">
+                <button class="admin-tab active" id="tabAddDish" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> إضافة طبق جديد</button>
+                <button class="admin-tab" id="tabEditDish" onclick="switchAdminTab('edit')"><i class="fa-solid fa-sliders"></i> تعديل الأسماء والأسباب</button>
+            </div>
+
+            <!-- تبويب إضافة طبق جديد -->
+            <div id="adminAddSection">
+                <div class="input-group">
+                    <label>اسم الطبق:</label>
+                    <input type="text" id="newDishName" placeholder="مثال: سمك مسكوف عراقي">
+                </div>
+                <div class="input-group">
+                    <label>السعر (بالدينار):</label>
+                    <input type="number" id="newDishPrice" placeholder="مثال: 15000">
+                </div>
+                <div class="input-group">
+                    <label>القسم:</label>
+                    <select id="newDishCategory">
+                        <option value="grills">قسم المشويات</option>
+                        <option value="appetizers">قسم المقبلات</option>
+                        <option value="desserts">قسم الحلويات</option>
+                        <option value="icecream">قسم الآيس كريم</option>
+                        <option value="drinks">قسم المشروبات</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>وصف الطبق:</label>
+                    <textarea id="newDishDesc" rows="2" placeholder="تفاصيل ومكونات الطبق..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label>صورة الطبق (رفع ملف أو وضع رابط):</label>
+                    <input type="file" id="newDishFile" accept="image/*" onchange="previewUploadedImage(event)" style="margin-bottom: 6px;">
+                    <input type="text" id="newDishImgUrl" placeholder="أو أدخل رابط صورة مباشر https://..." oninput="previewUrlImage(this.value)">
+                    <div class="img-preview-box" id="imgPreviewBox">
+                        <span style="font-size:0.75rem; color:var(--text-muted);">معاينة الصورة المرفوعة</span>
+                    </div>
+                </div>
+                <button class="submit-whatsapp-btn" style="background: var(--accent-color); margin-top: 15px;" onclick="addNewDish()">
+                    <i class="fa-solid fa-check"></i> حفظ وإضافة الطبق
+                </button>
+            </div>
+
+            <!-- تبويب تعديل الأطباق الحالية -->
+            <div id="adminEditSection" style="display: none;">
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px;">عدّل الأسماء والأسباب مباشرة، ثم اضغط حفظ التغيرات:</p>
+                <div id="adminDishesList" style="max-height: 300px; overflow-y: auto; padding-left: 5px;"></div>
+                <button class="submit-whatsapp-btn" style="background: var(--accent-color); margin-top: 15px;" onclick="saveDishesEdits()">
+                    <i class="fa-solid fa-floppy-disk"></i> حفظ كافة التعديلات
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // إخفاء عرض الترحيب بعد 2 ثانية تلقائياً
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                if (splash) {
+                    splash.classList.add('fade-out');
+                }
+            }, 2000);
+        });
+
         const categoriesConfig = [
             { id: "grills", title: "قسم المشويات", icon: "fa-fire-burner" },
             { id: "appetizers", title: "قسم المقبلات", icon: "fa-bowl-food" },
@@ -1118,7 +1321,7 @@
             { id: "drinks", title: "قسم المشروبات", icon: "fa-glass-water" }
         ];
 
-        let menuData = [
+        let defaultMenuData = [
             // --- المشويات ---
             { id: 1, name: "كباب عراقي فاخر", category: "grills", price: 14000, desc: "لحم غنم بلدي طازج مفروم مع البهارات الخاصة، يطرد على الفحم ويقدم مع الخضار المشوية والخبز الحار.", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80" },
             { id: 2, name: "تكه لحم غنم", category: "grills", price: 16000, desc: "قطع لحم الغنم الطرية والمتبلة بعناية، مشوية على الفحم لتمنحك النكهة العراقية الأصيلة.", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80" },
@@ -1143,9 +1346,13 @@
             { id: 28, name: "لبن أربيل بالنعناع", category: "drinks", price: 2000, desc: "لبن خاثر برغوة كثيفة مع لمسة نعناع طازج، منعش ولذيذ مع المشويات.", img: "https://images.unsplash.com/photo-1571006682858-a458b8a69388?w=500&q=80" }
         ];
 
+        // تحميل قائمة الأطباق من الذاكرة المحلية أو إستخدام القائمة الافتراضية
+        let menuData = JSON.parse(localStorage.getItem('simsimah_menu')) || defaultMenuData;
+
         let cart = {};
         let selectedOrderType = 'dinein';
         let scrollObserver;
+        let currentUploadedImgBase64 = "";
 
         function toggleSidebar() {
             document.getElementById('sidebarOverlay').classList.toggle('active');
@@ -1234,16 +1441,16 @@
                     card.className = 'dish-card';
                     card.innerHTML = `
                         <div class="dish-img-wrap" onclick="openLightbox(${dish.id})">
-                            <img src="${dish.img}" alt="${dish.name}" class="dish-img">
+                            <img src="${dish.img || 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80'}" alt="${dish.name}" class="dish-img">
                             <div class="img-overlay-icon"><i class="fa-solid fa-expand"></i></div>
                         </div>
                         <div class="dish-details">
                             <div onclick="openLightbox(${dish.id})">
                                 <div class="dish-title">${dish.name}</div>
-                                <div class="dish-desc">${dish.desc}</div>
+                                <div class="dish-desc">${dish.desc || ''}</div>
                             </div>
                             <div class="dish-footer">
-                                <div class="dish-price">${dish.price.toLocaleString()} د.ع</div>
+                                <div class="dish-price">${parseInt(dish.price).toLocaleString()} د.ع</div>
                                 <div class="quantity-control" onclick="event.stopPropagation();">
                                     <button class="qty-btn" onclick="updateQty(${dish.id}, -1, event)">-</button>
                                     <span class="qty-number" id="qty-${dish.id}">${qty}</span>
@@ -1291,10 +1498,10 @@
             const dish = menuData.find(d => d.id === dishId);
             if (!dish) return;
 
-            document.getElementById('lightboxImg').src = dish.img;
+            document.getElementById('lightboxImg').src = dish.img || 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80';
             document.getElementById('lightboxTitle').innerText = dish.name;
-            document.getElementById('lightboxDesc').innerText = dish.desc;
-            document.getElementById('lightboxPrice').innerText = `${dish.price.toLocaleString()} د.ع`;
+            document.getElementById('lightboxDesc').innerText = dish.desc || '';
+            document.getElementById('lightboxPrice').innerText = `${parseInt(dish.price).toLocaleString()} د.ع`;
 
             const qty = cart[dish.id] || 0;
             document.getElementById('lightboxAction').innerHTML = `
@@ -1350,7 +1557,7 @@
 
             const filtered = menuData.filter(dish => 
                 dish.name.toLowerCase().includes(query) || 
-                dish.desc.toLowerCase().includes(query)
+                (dish.desc && dish.desc.toLowerCase().includes(query))
             );
             renderAllSections(filtered);
         }
@@ -1524,6 +1731,128 @@
             }
         }
 
+        /* --- وظائف لوحة تحكم الإدارة والتعديل --- */
+        function openAdminModal() {
+            document.getElementById('adminModal').classList.add('active');
+            renderAdminDishesList();
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('active');
+        }
+
+        function switchAdminTab(tab) {
+            if(tab === 'add') {
+                document.getElementById('adminAddSection').style.display = 'block';
+                document.getElementById('adminEditSection').style.display = 'none';
+                document.getElementById('tabAddDish').classList.add('active');
+                document.getElementById('tabEditDish').classList.remove('active');
+            } else {
+                document.getElementById('adminAddSection').style.display = 'none';
+                document.getElementById('adminEditSection').style.display = 'block';
+                document.getElementById('tabAddDish').classList.remove('active');
+                document.getElementById('tabEditDish').classList.add('active');
+                renderAdminDishesList();
+            }
+        }
+
+        function previewUploadedImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentUploadedImgBase64 = e.target.result;
+                    document.getElementById('imgPreviewBox').innerHTML = `<img src="${e.target.result}" alt="معاينة">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function previewUrlImage(url) {
+            if(url.trim() !== '') {
+                currentUploadedImgBase64 = url;
+                document.getElementById('imgPreviewBox').innerHTML = `<img src="${url}" alt="معاينة" onerror="this.parentNode.innerHTML='رابط الصورة غير صالح'">`;
+            }
+        }
+
+        function addNewDish() {
+            const name = document.getElementById('newDishName').value.trim();
+            const price = parseFloat(document.getElementById('newDishPrice').value);
+            const category = document.getElementById('newDishCategory').value;
+            const desc = document.getElementById('newDishDesc').value.trim();
+            const imgUrl = currentUploadedImgBase64 || "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80";
+
+            if (!name || isNaN(price)) {
+                alert("يرجى إدخال اسم الطبق والسعر بشكل صحيح.");
+                return;
+            }
+
+            const newDish = {
+                id: Date.now(),
+                name: name,
+                category: category,
+                price: price,
+                desc: desc,
+                img: imgUrl
+            };
+
+            menuData.push(newDish);
+            localStorage.setItem('simsimah_menu', JSON.stringify(menuData));
+
+            // إعادة تعيين الحقول
+            document.getElementById('newDishName').value = '';
+            document.getElementById('newDishPrice').value = '';
+            document.getElementById('newDishDesc').value = '';
+            document.getElementById('newDishFile').value = '';
+            document.getElementById('newDishImgUrl').value = '';
+            document.getElementById('imgPreviewBox').innerHTML = '<span style="font-size:0.75rem; color:var(--text-muted);">معاينة الصورة المرفوعة</span>';
+            currentUploadedImgBase64 = "";
+
+            renderAllSections();
+            alert("تمت إضافة الطبق بنجاح!");
+            closeAdminModal();
+        }
+
+        function renderAdminDishesList() {
+            const listContainer = document.getElementById('adminDishesList');
+            listContainer.innerHTML = '';
+
+            menuData.forEach(dish => {
+                listContainer.innerHTML += `
+                    <div class="admin-dish-row">
+                        <input type="text" id="admin-name-${dish.id}" value="${dish.name}" style="flex: 2;" placeholder="اسم الطبق">
+                        <input type="number" id="admin-price-${dish.id}" value="${dish.price}" style="flex: 1;" placeholder="السعر">
+                        <button class="btn-del" onclick="deleteDish(${dish.id})" title="حذف الطبق"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            });
+        }
+
+        function saveDishesEdits() {
+            menuData.forEach(dish => {
+                const nameInput = document.getElementById(`admin-name-${dish.id}`);
+                const priceInput = document.getElementById(`admin-price-${dish.id}`);
+                if (nameInput && priceInput) {
+                    dish.name = nameInput.value.trim() || dish.name;
+                    dish.price = parseFloat(priceInput.value) || dish.price;
+                }
+            });
+
+            localStorage.setItem('simsimah_menu', JSON.stringify(menuData));
+            renderAllSections();
+            alert("تم حفظ جميع التعديلات بنجاح!");
+            closeAdminModal();
+        }
+
+        function deleteDish(dishId) {
+            if (confirm("هل أنت تأكد من رغبتك في حذف هذا الطبق؟")) {
+                menuData = menuData.filter(d => d.id !== dishId);
+                localStorage.setItem('simsimah_menu', JSON.stringify(menuData));
+                renderAdminDishesList();
+                renderAllSections();
+            }
+        }
+
         function renderUI() {
             buildLayout();
             renderAllSections();
@@ -1531,3 +1860,5 @@
 
         renderUI();
     </script>
+</body>
+</html>
