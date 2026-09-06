@@ -27,7 +27,7 @@
             --accent-text: #ffffff;
             --border-color: rgba(197, 155, 39, 0.35);
             --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            --pattern-opacity: 0.03;
+            --pattern-opacity: 0.05;
         }
 
         .dark {
@@ -43,7 +43,7 @@
             --accent-text: #000000;
             --border-color: rgba(212, 175, 55, 0.25);
             --shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-            --pattern-opacity: 0.05;
+            --pattern-opacity: 0.08;
         }
 
         * {
@@ -62,20 +62,35 @@
             padding-bottom: 90px;
             min-height: 100vh;
             position: relative;
+            overflow-x: hidden;
         }
 
-        /* خلفية زخرفية ناعمة */
+        /* خلفية النقوش الإسلامية الشفافة والمتحركة */
         body::before {
             content: "";
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C59B27' fill-opacity='1'%3E%3Cpath d='M0 0h80v80H0V0zm40 40l20 20H20l20-20zm0 0L20 20h40L40 40zm0 0l20-20v40L40 40zm0 0L20 60V20l20 20z'/%3E%3C/g%3E%3C/svg%3E");
+            width: 200%;
+            height: 200%;
+            /* نقش إسلامي ثماني هندسي متناسق */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%23C59B27' stroke-width='1'/%3E%3Cpath d='M40 10 L70 40 L40 70 L10 40 Z' fill='none' stroke='%23C59B27' stroke-width='0.8'/%3E%3Ccircle cx='40' cy='40' r='12' fill='none' stroke='%23C59B27' stroke-width='0.8'/%3E%3Cpath d='M0 0 L80 80 M80 0 L0 80' stroke='%23C59B27' stroke-width='0.5' opacity='0.5'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 80px 80px;
             opacity: var(--pattern-opacity);
             z-index: -1;
             pointer-events: none;
+            animation: moveIslamicPattern 40s linear infinite;
+        }
+
+        /* أنيميشن حركة النقوش البطيئة والناعمة */
+        @keyframes moveIslamicPattern {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(-80px, -80px);
+            }
         }
 
         header {
@@ -169,7 +184,7 @@
             font-size: 15px;
         }
 
-        /* 1. صورة غلاف للموقع (Hero Banner) */
+        /* صورة غلاف للموقع (Hero Banner) */
         .hero-banner {
             max-width: 800px;
             margin: 10px auto 0 auto;
@@ -238,7 +253,7 @@
             opacity: 0.9;
         }
 
-        /* 2. قائمة جانبية للأقسام (Sidebar Drawer) */
+        /* قائمة جانبية للأقسام (Sidebar Drawer) */
         .sidebar-overlay {
             position: fixed;
             top: 0;
@@ -882,7 +897,7 @@
         </div>
     </header>
 
-    <!-- 1. صوره غلاف للموقع (Hero Banner) -->
+    <!-- صورة غلاف للموقع (Hero Banner) -->
     <div class="hero-banner">
         <div class="hero-card">
             <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=1000&q=80" alt="غلاف مطعم سمسمه" class="hero-img">
@@ -895,7 +910,7 @@
         </div>
     </div>
 
-    <!-- 2. القائمة الجانبية لسامي الأقسام (Sidebar Drawer) -->
+    <!-- القائمة الجانبية لسامي الأقسام (Sidebar Drawer) -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
     <div class="sidebar-drawer" id="sidebarDrawer">
         <div class="sidebar-header">
