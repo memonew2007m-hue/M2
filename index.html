@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="light">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منيو مطعم سمسمه | Simsimah Restaurant</title>
-    
+    <title>مطعم سمسمه - قائمة الطعام</title>
     <meta name="theme-color" content="#ffffff">
     <link rel="manifest" href='data:application/manifest+json,{"name":"مطعم سمسمه","short_name":"سمسمه","start_url":".","display":"standalone","background_color":"#ffffff","theme_color":"#C59B27","icons":[{"src":"https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=192&q=80","sizes":"192x192","type":"image/jpeg"}]}'>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- الخطوط: القاهرة + خط الرقعة (عارف رقعة) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -59,6 +61,153 @@
             overflow-x: hidden;
         }
 
+        /* --- شاشة العرض التقديمي الافتتاحية (Splash Intro) --- */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #0a0a0a;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+        }
+
+        #splashScreen.hide-splash {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* خلفية زخرفية متحرّكة للعرض */
+        .splash-bg-pattern {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 140vmax;
+            height: 140vmax;
+            transform: translate(-50%, -50%);
+            background-image: radial-gradient(circle, rgba(212, 175, 55, 0.12) 1px, transparent 1px);
+            background-size: 28px 28px;
+            animation: rotateBg 120s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotateBg {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* الإطار الذهبي الأنيق */
+        .splash-frame {
+            position: relative;
+            z-index: 2;
+            padding: 40px 30px;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 24px;
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.15), inset 0 0 30px rgba(212, 175, 55, 0.05);
+            max-width: 90%;
+            width: 450px;
+            animation: zoomInSplash 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes zoomInSplash {
+            0% { opacity: 0; transform: scale(0.85); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* الشعار داخل الشاشة */
+        .splash-logo-wrap {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 20px auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #D4AF37, #8A6D1D);
+            padding: 3px;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+            100% { box-shadow: 0 0 35px rgba(212, 175, 55, 0.7); }
+        }
+
+        .splash-logo-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* نص أهلاً وسهلاً بخط الرقعة */
+        .splash-ruqaa-title {
+            font-family: 'Aref Ruqaa', serif;
+            font-size: 3.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FFF3C4 0%, #D4AF37 50%, #AA820A 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+            letter-spacing: 1px;
+            animation: fadeInText 1s ease-out forwards;
+        }
+
+        @keyframes fadeInText {
+            0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .splash-sub-title {
+            font-size: 1.1rem;
+            color: #d1d1d1;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+        }
+
+        /* شريط التقدّم الزمني (ثانيتين) */
+        .splash-progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .splash-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #D4AF37, #FFF3C4);
+            box-shadow: 0 0 10px #D4AF37;
+            animation: fillProgress 2s linear forwards;
+        }
+
+        @keyframes fillProgress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .splash-skip-note {
+            margin-top: 15px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+        }
+
+        /* خلفية نقش اسلامي */
         body::before {
             content: "";
             position: fixed;
@@ -241,86 +390,6 @@
             opacity: 0.9;
         }
 
-        .sidebar-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 200;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .sidebar-overlay.active {
-            display: block;
-            opacity: 1;
-        }
-
-        .sidebar-drawer {
-            position: fixed;
-            top: 0;
-            right: -280px;
-            width: 280px;
-            height: 100%;
-            background: var(--bg-card);
-            border-left: 2px solid var(--accent-color);
-            z-index: 201;
-            transition: right 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar-drawer.active { right: 0; }
-
-        .sidebar-header {
-            padding: 18px 15px;
-            background: var(--bg-nav);
-            border-bottom: 1.5px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .sidebar-header h3 {
-            font-size: 1.05rem;
-            font-weight: 900;
-            color: var(--accent-color);
-        }
-
-        .close-sidebar-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .sidebar-menu-list {
-            list-style: none;
-            padding: 12px;
-            overflow-y: auto;
-            flex-grow: 1;
-        }
-
-        .sidebar-menu-link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 14px;
-            background: var(--bg-primary);
-            border: 1.5px solid var(--border-color);
-            border-radius: 12px;
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 0.88rem;
-            margin-bottom: 8px;
-        }
-
         .info-bar {
             max-width: 800px;
             margin: 10px auto 5px auto;
@@ -496,21 +565,6 @@
         .dish-img-wrap { position: relative; overflow: hidden; cursor: pointer; }
         .dish-img { width: 100%; height: 115px; object-fit: cover; }
 
-        .img-overlay-icon {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            background: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-
         .dish-details {
             padding: 10px;
             display: flex;
@@ -547,33 +601,6 @@
 
         .dish-price { font-size: 0.85rem; font-weight: 900; color: var(--accent-color); }
 
-        .quantity-control {
-            display: flex;
-            align-items: center;
-            background: rgba(197, 155, 39, 0.1);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 2px;
-            gap: 4px;
-        }
-
-        .qty-btn {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            border: none;
-            background: var(--accent-color);
-            color: #fff;
-            font-size: 13px;
-            font-weight: 900;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .qty-number { font-weight: 800; font-size: 0.8rem; min-width: 16px; text-align: center; }
-
         .cart-bar {
             position: fixed;
             bottom: 12px;
@@ -608,13 +635,6 @@
             font-size: 16px;
         }
 
-        .cart-icon-wrap.cart-pulse { animation: cartPulse 0.4s ease-in-out; }
-        @keyframes cartPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(1); }
-        }
-
         .cart-badge {
             position: absolute;
             top: -6px;
@@ -631,9 +651,6 @@
             justify-content: center;
         }
 
-        .cart-total-title { font-size: 0.7rem; color: var(--text-muted); }
-        .cart-total-price { font-size: 0.9rem; font-weight: 900; color: var(--accent-color); }
-
         .send-order-btn {
             background: #25d366;
             color: white;
@@ -646,213 +663,35 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            position: relative;
-            overflow: hidden;
         }
-
-        .send-order-btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.45), transparent);
-            transform: rotate(30deg);
-            animation: goldShimmer 3.5s infinite ease-in-out;
-        }
-
-        @keyframes goldShimmer {
-            0% { transform: translateX(-100%) rotate(30deg); }
-            20% { transform: translateX(100%) rotate(30deg); }
-            100% { transform: translateX(100%) rotate(30deg); }
-        }
-
-        .flying-dot {
-            position: fixed;
-            width: 16px;
-            height: 16px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            z-index: 9999;
-            pointer-events: none;
-            box-shadow: 0 0 10px var(--accent-color);
-            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        /* Modal Base */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-
-        .modal-content {
-            background: var(--bg-card);
-            border: 2px solid var(--accent-color);
-            width: 100%;
-            max-width: 420px;
-            border-radius: 18px;
-            padding: 16px;
-            box-shadow: var(--shadow);
-            max-height: 85vh;
-            overflow-y: auto;
-            transform: scale(0.75);
-            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .modal-overlay.active .modal-content { transform: scale(1); }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
-        }
-
-        .close-modal { background: none; border: none; color: var(--text-muted); font-size: 22px; cursor: pointer; }
-
-        .lightbox-card { text-align: center; }
-        .lightbox-img { width: 100%; max-height: 240px; object-fit: cover; border-radius: 14px; border: 1.5px solid var(--border-color); margin-bottom: 12px; }
-
-        .order-summary-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 7px 0;
-            border-bottom: 1px dashed var(--border-color);
-            font-size: 0.82rem;
-        }
-
-        .order-type-selector { display: flex; gap: 6px; margin-top: 10px; }
-        .type-btn {
-            flex: 1;
-            padding: 8px;
-            border: 1.5px solid var(--border-color);
-            background: var(--bg-primary);
-            color: var(--text-muted);
-            border-radius: 10px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .type-btn.active {
-            border-color: var(--accent-color);
-            background: rgba(197, 155, 39, 0.15);
-            color: var(--accent-color);
-            font-weight: 800;
-        }
-
-        .input-group { margin-top: 10px; }
-        .input-group label { display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 4px; }
-        .input-group input, .input-group select, .input-group textarea {
-            width: 100%;
-            padding: 8px 10px;
-            background: var(--bg-primary);
-            border: 1.5px solid var(--border-color);
-            border-radius: 10px;
-            color: var(--text-main);
-            font-size: 0.82rem;
-            outline: none;
-        }
-
-        .submit-whatsapp-btn {
-            width: 100%;
-            margin-top: 15px;
-            background: #25d366;
-            color: white;
-            border: none;
-            padding: 11px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 0.88rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* --- تصميم لوحة التحكم (Admin Panel) --- */
-        .admin-modal-content { max-width: 650px; }
-        .admin-item-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            padding: 8px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            margin-bottom: 8px;
-        }
-
-        .admin-item-info { flex: 1; font-size: 0.82rem; font-weight: 800; }
-        .admin-input-price { width: 90px !important; padding: 4px 6px !important; text-align: center; }
-        
-        .admin-btn {
-            padding: 6px 10px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-weight: 800;
-            font-size: 0.75rem;
-            color: white;
-        }
-
-        .btn-hide { background: #f0ad4e; }
-        .btn-show { background: #5cb85c; }
-        .btn-delete { background: #d9534f; }
-        .btn-save { background: var(--accent-color); }
-
-        .admin-tabs {
-            display: flex;
-            gap: 10px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 8px;
-            margin-bottom: 12px;
-        }
-
-        .admin-tab-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-weight: 800;
-            font-size: 0.85rem;
-            cursor: pointer;
-            padding: 4px 8px;
-        }
-
-        .admin-tab-btn.active { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); }
     </style>
 </head>
 <body>
 
+    <!-- شاشة العرض التقديمي الافتتاحية -->
+    <div id="splashScreen" onclick="dismissSplash()">
+        <div class="splash-bg-pattern"></div>
+        <div class="splash-frame">
+            <div class="splash-logo-wrap">
+                <img src="IMG_2408.jpeg" alt="لوجو مطعم سمسمه" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=200&q=80';">
+            </div>
+            <!-- عبارة أهلاً وسهلاً بخط الرقعة العربي -->
+            <div class="splash-ruqaa-title">أهلاً وسهلاً</div>
+            <div class="splash-sub-title">في مطعم سمسمه للمأكولات العراقية</div>
+            
+            <div class="splash-progress-bar">
+                <div class="splash-progress-fill"></div>
+            </div>
+            <div class="splash-skip-note"><i class="fa-solid fa-hand-pointer"></i> اضغط في أي مكان لتخطي الموقت</div>
+        </div>
+    </div>
+
+    <!-- رأس الصفحة Header -->
     <header>
         <div class="header-top">
             <div class="brand">
-                <button class="menu-drawer-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
-                <div class="logo-icon" onclick="handleSecretClick()" title="اضغط 5 مرات لفتح لوحة التحكم">
+                <button class="menu-drawer-btn"><i class="fa-solid fa-bars"></i></button>
+                <div class="logo-icon">
                     <img src="IMG_2408.jpeg" alt="لوجو مطعم سمسمه" onerror="this.style.display='none'">
                     <i class="fa-solid fa-utensils"></i>
                 </div>
@@ -869,13 +708,14 @@
         <div class="info-bar">
             <a href="https://maps.google.com" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> الموقع على الخريطة</a>
             <div class="social-links">
-                <a href="https://t.me/" target="_blank" class="social-btn"><i class="fa-brands fa-telegram"></i></a>
-                <a href="https://instagram.com/" target="_blank" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://facebook.com/" target="_blank" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="social-btn"><i class="fa-brands fa-telegram"></i></a>
+                <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
             </div>
         </div>
     </header>
 
+    <!-- البانر الرئيسي Hero -->
     <div class="hero-banner">
         <div class="hero-card">
             <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=1000&q=80" alt="غلاف مطعم سمسمه" class="hero-img">
@@ -888,592 +728,106 @@
         </div>
     </div>
 
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-    <div class="sidebar-drawer" id="sidebarDrawer">
-        <div class="sidebar-header">
-            <h3><i class="fa-solid fa-list-ul"></i> أقسام قائمة الطعام</h3>
-            <button class="close-sidebar-btn" onclick="closeSidebar()">&times;</button>
-        </div>
-        <ul class="sidebar-menu-list" id="sidebarMenuList"></ul>
-    </div>
-
+    <!-- البحث والتصنيفات -->
     <div class="search-container">
         <div class="search-box">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="searchInput" placeholder="ابحث عن طبق، حلى، أو مشروب..." oninput="handleSearch()">
+            <input type="text" id="searchInput" placeholder="ابحث عن طبق، حلى، أو مشروب...">
         </div>
     </div>
 
     <div class="categories-container">
-        <div class="categories-tabs" id="categoriesTabs"></div>
+        <div class="categories-tabs" id="categoriesTabs">
+            <button class="tab-btn active"><i class="fa-solid fa-fire"></i> الكل</button>
+            <button class="tab-btn"><i class="fa-solid fa-drumstick-bite"></i> المشويات</button>
+            <button class="tab-btn"><i class="fa-solid fa-bowl-rice"></i> الأطباق الرئيسية</button>
+            <button class="tab-btn"><i class="fa-solid fa-wine-glass"></i> المشروبات</button>
+        </div>
     </div>
 
-    <div class="menu-wrapper" id="menuWrapper"></div>
-
-    <div class="cart-bar" id="cartBar">
-        <div class="cart-info">
-            <div class="cart-icon-wrap" id="cartIconWrap">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="cart-badge" id="cartBadge">0</span>
+    <!-- شبكة الأطباق -->
+    <div class="menu-wrapper">
+        <div class="section-divider">
+            <span class="section-title-lg"><i class="fa-solid fa-star" style="color:var(--accent-color);"></i> قائمة المأكولات المميزة</span>
+        </div>
+        <div class="menu-container">
+            <!-- طبق 1 -->
+            <div class="dish-card reveal-visible">
+                <div class="dish-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80" class="dish-img" alt="كباب عراقي">
+                </div>
+                <div class="dish-details">
+                    <div class="dish-title">كباب عراقي فاخر</div>
+                    <div class="dish-desc">لحم غنم طازج مشوي على الفحم مع الطماطم والبصل المشوي</div>
+                    <div class="dish-footer">
+                        <span class="dish-price">12,000 د.ع</span>
+                    </div>
+                </div>
             </div>
-            <div>
-                <div class="cart-total-title">المجموع الكلي</div>
-                <div class="cart-total-price" id="cartTotalPrice">0 د.ع</div>
+            <!-- طبق 2 -->
+            <div class="dish-card reveal-visible">
+                <div class="dish-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80" class="dish-img" alt="قوزي لحم">
+                </div>
+                <div class="dish-details">
+                    <div class="dish-title">قوزي لحم على الرز</div>
+                    <div class="dish-desc">لحم مطبوخ بالطريقة البغدادية مع الرز بالزعفران والمكسرات</div>
+                    <div class="dish-footer">
+                        <span class="dish-price">18,000 د.ع</span>
+                    </div>
+                </div>
             </div>
         </div>
-        <button class="send-order-btn" onclick="openOrderModal()">
+    </div>
+
+    <!-- شريط السلة السفلي -->
+    <div class="cart-bar">
+        <div class="cart-info">
+            <div class="cart-icon-wrap">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-badge">2</span>
+            </div>
+            <div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">المجموع الكلي</div>
+                <div style="font-size: 0.9rem; font-weight: 900; color: var(--accent-color);">30,000 د.ع</div>
+            </div>
+        </div>
+        <button class="send-order-btn">
             <i class="fa-brands fa-whatsapp"></i> إرسال الطلب
         </button>
     </div>
 
-    <!-- نافذة Lightbox -->
-    <div class="modal-overlay" id="lightboxModal">
-        <div class="modal-content lightbox-card">
-            <div class="modal-header">
-                <h3><i class="fa-solid fa-circle-info"></i> تفاصيل الطبق</h3>
-                <button class="close-modal" onclick="closeLightbox()">&times;</button>
-            </div>
-            <img id="lightboxImg" src="" class="lightbox-img">
-            <div id="lightboxTitle" style="font-weight:900; font-size:1.1rem; margin-bottom:5px;"></div>
-            <div id="lightboxDesc" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;"></div>
-            <div id="lightboxPrice" style="font-weight:900; color:var(--accent-color); font-size:1.1rem; margin-bottom:15px;"></div>
-            <div id="lightboxAction"></div>
-        </div>
-    </div>
-
-    <!-- نافذة الطلب -->
-    <div class="modal-overlay" id="orderModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fa-solid fa-receipt"></i> تفاصيل الطلب</h3>
-                <button class="close-modal" onclick="closeOrderModal()">&times;</button>
-            </div>
-            <div id="modalOrderItems"></div>
-            <div class="input-group">
-                <label>نوع الطلب:</label>
-                <div class="order-type-selector">
-                    <button class="type-btn active" id="btn-dinein" onclick="setOrderType('dinein')"><i class="fa-solid fa-utensils"></i> داخل المطعم</button>
-                    <button class="type-btn" id="btn-takeaway" onclick="setOrderType('takeaway')"><i class="fa-solid fa-bag-shopping"></i> سفري</button>
-                    <button class="type-btn" id="btn-delivery" onclick="setOrderType('delivery')"><i class="fa-solid fa-motorcycle"></i> توصيل</button>
-                </div>
-            </div>
-            <div class="input-group" id="deliveryGroup" style="display: none;">
-                <label for="deliveryZone">منطقة التوصيل:</label>
-                <select id="deliveryZone" onchange="updateModalTotal()">
-                    <option value="2000">مركز المدينة - 2,000 د.ع</option>
-                    <option value="3000">الأحياء المجاورة - 3,000 د.ع</option>
-                    <option value="5000">مناطق بعيدة - 5,000 د.ع</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label for="tableName" id="tableLabel">رقم الطاولة:</label>
-                <input type="text" id="tableName" placeholder="مثال: طاولة 5">
-            </div>
-            <div class="input-group">
-                <label for="orderNotes">ملاحظات إضافية:</label>
-                <textarea id="orderNotes" rows="2" placeholder="مثال: بدون بصل..."></textarea>
-            </div>
-            <button class="submit-whatsapp-btn" onclick="sendToWhatsApp()"><i class="fa-brands fa-whatsapp"></i> إرسال للكاشير</button>
-        </div>
-    </div>
-
-    <!-- نافذة لوحة التحكم الخفية (Admin Panel) -->
-    <div class="modal-overlay" id="adminModal">
-        <div class="modal-content admin-modal-content">
-            <div class="modal-header">
-                <h3><i class="fa-solid fa-user-gear"></i> لوحة إدارة منيو مطعم سمسمه</h3>
-                <button class="close-modal" onclick="closeAdminModal()">&times;</button>
-            </div>
-            
-            <div class="admin-tabs">
-                <button class="admin-tab-btn active" id="tab-manage-btn" onclick="switchAdminTab('manage')">إدارة الأطباق والأسعار</button>
-                <button class="admin-tab-btn" id="tab-add-btn" onclick="switchAdminTab('add')">إضافة طبق جديد</button>
-            </div>
-
-            <!-- تبويب الإدارة -->
-            <div id="adminTabManage">
-                <div id="adminItemsList"></div>
-            </div>
-
-            <!-- تبويب إضافة طبق -->
-            <div id="adminTabAdd" style="display: none;">
-                <div class="input-group">
-                    <label>اسم الطبق:</label>
-                    <input type="text" id="newDishName" placeholder="مثال: كباب خروف فاخر">
-                </div>
-                <div class="input-group">
-                    <label>القسم:</label>
-                    <select id="newDishCategory">
-                        <option value="grills">قسم المشويات</option>
-                        <option value="appetizers">قسم المقبلات</option>
-                        <option value="desserts">قسم الحلويات</option>
-                        <option value="icecream">قسم الآيس كريم</option>
-                        <option value="drinks">قسم المشروبات</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label>السعر (بالدينار العراقي):</label>
-                    <input type="number" id="newDishPrice" placeholder="مثال: 15000">
-                </div>
-                <div class="input-group">
-                    <label>وصف الطبق:</label>
-                    <textarea id="newDishDesc" rows="2" placeholder="مكونات الطبق..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label>رابط الصورة (URL):</label>
-                    <input type="text" id="newDishImg" placeholder="ضع رابط الصورة هنا">
-                </div>
-                <button class="submit-whatsapp-btn" style="background: var(--accent-color);" onclick="addNewDish()"><i class="fa-solid fa-plus"></i> إضافة الطبق للمنيو</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        const categoriesConfig = [
-            { id: "grills", title: "قسم المشويات", icon: "fa-fire-burner" },
-            { id: "appetizers", title: "قسم المقبلات", icon: "fa-bowl-food" },
-            { id: "desserts", title: "قسم الحلويات", icon: "fa-cake-candles" },
-            { id: "icecream", title: "قسم الآيس كريم", icon: "fa-ice-cream" },
-            { id: "drinks", title: "قسم المشروبات", icon: "fa-glass-water" }
-        ];
+        // إغلاق شاشة العرض التقديمي عند اكتمال المهلة (ثانيتين = 2000 ميلي ثانية)
+        let splashDismissed = false;
 
-        const defaultMenuData = [
-            { id: 1, name: "كباب عراقي فاخر", category: "grills", price: 14000, desc: "لحم غنم بلدي طازج مفروم مع البهارات الخاصة.", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80", available: true },
-            { id: 2, name: "تكه لحم غنم", category: "grills", price: 16000, desc: "قطع لحم الغنم الطرية والمتبلة بعناية.", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80", available: true },
-            { id: 3, name: "شيش طاووق دجاج", category: "grills", price: 12000, desc: "صدور دجاج متبلة بخلطة الليمون والزبادي.", img: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=500&q=80", available: true },
-            { id: 9, name: "حمص بطحينة باللحم", category: "appetizers", price: 5000, desc: "حمص ناعم كريمي مزين بقطع اللحم المحمر.", img: "https://images.unsplash.com/photo-1577906096429-f73c2c312435?w=500&q=80", available: true },
-            { id: 16, name: "كنافة بالجبنة النابلسية", category: "desserts", price: 6000, desc: "كنافة ساخنة بالجبنة النابلسية الذائبة.", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=500&q=80", available: true },
-            { id: 22, name: "آيس كريم صنداي الفراولة", category: "icecream", price: 4000, desc: "آيس كريم فانيليا غنية مع صوص الفراولة.", img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&q=80", available: true },
-            { id: 27, name: "عصير برتقال طبيعي", category: "drinks", price: 3000, desc: "برتقال طازج معصور فورياً.", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=500&q=80", available: true }
-        ];
-
-        let menuData = JSON.parse(localStorage.getItem('simsimah_menu_data')) || defaultMenuData;
-        let cart = {};
-        let selectedOrderType = 'dinein';
-        let secretClicks = 0;
-
-        function saveMenuToStorage() {
-            localStorage.setItem('simsimah_menu_data', JSON.stringify(menuData));
-        }
-
-        /* فتح لوحة التحكم بالضغط 5 مرات متتالية على اللوجو */
-        function handleSecretClick() {
-            secretClicks++;
-            if (secretClicks === 5) {
-                secretClicks = 0;
-                const pass = prompt("أدخل كلمة السر الخاصة بمدير المطعم:");
-                if (pass === "1234") {
-                    openAdminModal();
-                } else if (pass !== null) {
-                    alert("كلمة السر غير صحيحة!");
-                }
-            }
-            setTimeout(() => { secretClicks = 0; }, 3000);
-        }
-
-        function openAdminModal() {
-            renderAdminItems();
-            document.getElementById('adminModal').classList.add('active');
-        }
-
-        function closeAdminModal() {
-            document.getElementById('adminModal').classList.remove('active');
-        }
-
-        function switchAdminTab(tab) {
-            if(tab === 'manage') {
-                document.getElementById('adminTabManage').style.display = 'block';
-                document.getElementById('adminTabAdd').style.display = 'none';
-                document.getElementById('tab-manage-btn').classList.add('active');
-                document.getElementById('tab-add-btn').classList.remove('active');
-            } else {
-                document.getElementById('adminTabManage').style.display = 'none';
-                document.getElementById('adminTabAdd').style.display = 'block';
-                document.getElementById('tab-manage-btn').classList.remove('active');
-                document.getElementById('tab-add-btn').classList.add('active');
-            }
-        }
-
-        function renderAdminItems() {
-            const container = document.getElementById('adminItemsList');
-            container.innerHTML = '';
-
-            menuData.forEach(dish => {
-                const row = document.createElement('div');
-                row.className = 'admin-item-row';
-                row.innerHTML = `
-                    <div class="admin-item-info">${dish.name}</div>
-                    <input type="number" value="${dish.price}" class="admin-input-price" id="admin-price-${dish.id}">
-                    <button class="admin-btn btn-save" onclick="updatePrice(${dish.id})">حفظ</button>
-                    <button class="admin-btn ${dish.available ? 'btn-hide' : 'btn-show'}" onclick="toggleAvailability(${dish.id})">
-                        ${dish.available ? 'إخفاء' : 'إظهار'}
-                    </button>
-                    <button class="admin-btn btn-delete" onclick="deleteDish(${dish.id})"><i class="fa-solid fa-trash"></i></button>
-                `;
-                container.appendChild(row);
-            });
-        }
-
-        function updatePrice(id) {
-            const newPrice = parseInt(document.getElementById(`admin-price-${id}`).value);
-            const dish = menuData.find(d => d.id === id);
-            if (dish && newPrice) {
-                dish.price = newPrice;
-                saveMenuToStorage();
-                renderAllSections();
-                alert(`تم تحديث سعر ${dish.name} بنجاح!`);
-            }
-        }
-
-        function toggleAvailability(id) {
-            const dish = menuData.find(d => d.id === id);
-            if (dish) {
-                dish.available = !dish.available;
-                saveMenuToStorage();
-                renderAdminItems();
-                renderAllSections();
-            }
-        }
-
-        function deleteDish(id) {
-            if (confirm("هل أنت تأكد من إزالة هذا الطبق من المنيو؟")) {
-                menuData = menuData.filter(d => d.id !== id);
-                saveMenuToStorage();
-                renderAdminItems();
-                renderAllSections();
-            }
-        }
-
-        function addNewDish() {
-            const name = document.getElementById('newDishName').value.trim();
-            const category = document.getElementById('newDishCategory').value;
-            const price = parseInt(document.getElementById('newDishPrice').value);
-            const desc = document.getElementById('newDishDesc').value.trim();
-            const img = document.getElementById('newDishImg').value.trim() || "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80";
-
-            if (!name || !price) {
-                alert("الرجاء ملء الاسم والسعر على الأقل!");
-                return;
-            }
-
-            const newDish = { id: Date.now(), name, category, price, desc, img, available: true };
-            menuData.push(newDish);
-            saveMenuToStorage();
-            
-            document.getElementById('newDishName').value = '';
-            document.getElementById('newDishPrice').value = '';
-            document.getElementById('newDishDesc').value = '';
-            document.getElementById('newDishImg').value = '';
-
-            switchAdminTab('manage');
-            renderAdminItems();
-            renderAllSections();
-            alert("تمت إضافة الطبق الجديد بنجاح!");
-        }
-
-        function toggleSidebar() {
-            document.getElementById('sidebarOverlay').classList.toggle('active');
-            document.getElementById('sidebarDrawer').classList.toggle('active');
-        }
-
-        function closeSidebar() {
-            document.getElementById('sidebarOverlay').classList.remove('active');
-            document.getElementById('sidebarDrawer').classList.remove('active');
-        }
-
-        function buildLayout() {
-            const tabsContainer = document.getElementById('categoriesTabs');
-            const sidebarList = document.getElementById('sidebarMenuList');
-            const wrapper = document.getElementById('menuWrapper');
-            
-            tabsContainer.innerHTML = '';
-            sidebarList.innerHTML = '';
-            wrapper.innerHTML = '';
-
-            categoriesConfig.forEach((cat, index) => {
-                const tabBtn = document.createElement('button');
-                tabBtn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
-                tabBtn.id = `tab-${cat.id}`;
-                tabBtn.onclick = () => scrollToSection(cat.id);
-                tabBtn.innerHTML = `<i class="fa-solid ${cat.icon}"></i> ${cat.title.replace('قسم ', '')}`;
-                tabsContainer.appendChild(tabBtn);
-
-                const sidebarItem = document.createElement('li');
-                sidebarItem.innerHTML = `
-                    <a href="#sec-${cat.id}" class="sidebar-menu-link" onclick="closeSidebar(); scrollToSection('${cat.id}'); return false;">
-                        <span><i class="fa-solid ${cat.icon}"></i> ${cat.title}</span>
-                    </a>
-                `;
-                sidebarList.appendChild(sidebarItem);
-
-                const section = document.createElement('section');
-                section.id = `sec-${cat.id}`;
-                section.innerHTML = `
-                    <div class="section-divider">
-                        <div class="section-title-lg"><i class="fa-solid ${cat.icon}"></i> <span>${cat.title}</span></div>
-                    </div>
-                    <div class="menu-container" id="grid-${cat.id}"></div>
-                `;
-                wrapper.appendChild(section);
-            });
-        }
-
-        function renderAllSections(itemsToRender = null) {
-            categoriesConfig.forEach(cat => {
-                const gridContainer = document.getElementById(`grid-${cat.id}`);
-                if (!gridContainer) return;
-
-                gridContainer.innerHTML = '';
-                const items = (itemsToRender || menuData).filter(item => item.category === cat.id && item.available !== false);
-                
-                if(items.length === 0) {
-                    gridContainer.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 15px;">لا توجد عناصر متاحة حالياً في هذا القسم</div>`;
-                    return;
-                }
-
-                items.forEach(dish => {
-                    const qty = cart[dish.id] || 0;
-                    const card = document.createElement('div');
-                    card.className = 'dish-card';
-                    card.innerHTML = `
-                        <div class="dish-img-wrap" onclick="openLightbox(${dish.id})">
-                            <img src="${dish.img}" class="dish-img">
-                            <div class="img-overlay-icon"><i class="fa-solid fa-expand"></i></div>
-                        </div>
-                        <div class="dish-details">
-                            <div onclick="openLightbox(${dish.id})">
-                                <div class="dish-title">${dish.name}</div>
-                                <div class="dish-desc">${dish.desc}</div>
-                            </div>
-                            <div class="dish-footer">
-                                <div class="dish-price">${dish.price.toLocaleString()} د.ع</div>
-                                <div class="quantity-control" onclick="event.stopPropagation();">
-                                    <button class="qty-btn" onclick="updateQty(${dish.id}, -1, event)">-</button>
-                                    <span class="qty-number" id="qty-${dish.id}">${qty}</span>
-                                    <button class="qty-btn" onclick="updateQty(${dish.id}, 1, event)">+</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    gridContainer.appendChild(card);
-                });
-            });
-
-            setupScrollObserver();
-        }
-
-        function setupScrollObserver() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('reveal-visible');
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.dish-card').forEach(card => observer.observe(card));
-        }
-
-        function triggerFlyToCartAnimation(btnElement) {
-            const cartWrap = document.getElementById('cartIconWrap');
-            if (!btnElement || !cartWrap) return;
-
-            const btnRect = btnElement.getBoundingClientRect();
-            const cartRect = cartWrap.getBoundingClientRect();
-
-            const dot = document.createElement('div');
-            dot.className = 'flying-dot';
-            dot.style.left = `${btnRect.left + btnRect.width / 2 - 8}px`;
-            dot.style.top = `${btnRect.top + btnRect.height / 2 - 8}px`;
-            document.body.appendChild(dot);
-
-            requestAnimationFrame(() => {
-                dot.style.left = `${cartRect.left + cartRect.width / 2 - 8}px`;
-                dot.style.top = `${cartRect.top + cartRect.height / 2 - 8}px`;
-                dot.style.transform = 'scale(0.3)';
-                dot.style.opacity = '0.5';
-            });
-
+        function dismissSplash() {
+            if (splashDismissed) return;
+            splashDismissed = true;
+            const splash = document.getElementById('splashScreen');
+            splash.classList.add('hide-splash');
             setTimeout(() => {
-                dot.remove();
-                cartWrap.classList.remove('cart-pulse');
-                void cartWrap.offsetWidth;
-                cartWrap.classList.add('cart-pulse');
-            }, 600);
+                splash.style.display = 'none';
+            }, 800);
         }
 
-        function updateQty(dishId, change, event = null) {
-            if (!cart[dishId]) cart[dishId] = 0;
-            cart[dishId] += change;
+        // إغلاق تلقائي بعد 2 ثانية
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                dismissSplash();
+            }, 2000);
+        });
 
-            if (change > 0 && event && event.target) {
-                triggerFlyToCartAnimation(event.target);
-            }
-
-            if (cart[dishId] <= 0) delete cart[dishId];
-
-            document.querySelectorAll(`#qty-${dishId}`).forEach(el => el.innerText = cart[dishId] || 0);
-            updateCartBar();
-        }
-
-        function updateCartBar() {
-            let totalItems = 0, totalPrice = 0;
-            for (const id in cart) {
-                const dish = menuData.find(d => d.id == id);
-                if (dish) {
-                    totalItems += cart[id];
-                    totalPrice += dish.price * cart[id];
-                }
-            }
-            document.getElementById('cartBadge').innerText = totalItems;
-            document.getElementById('cartTotalPrice').innerText = `${totalPrice.toLocaleString()} د.ع`;
-        }
-
-        function openLightbox(dishId) {
-            const dish = menuData.find(d => d.id === dishId);
-            if (!dish) return;
-            document.getElementById('lightboxImg').src = dish.img;
-            document.getElementById('lightboxTitle').innerText = dish.name;
-            document.getElementById('lightboxDesc').innerText = dish.desc;
-            document.getElementById('lightboxPrice').innerText = `${dish.price.toLocaleString()} د.ع`;
-
-            const qty = cart[dish.id] || 0;
-            document.getElementById('lightboxAction').innerHTML = `
-                <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
-                    <span style="font-weight: 800;">الكمية:</span>
-                    <div class="quantity-control" style="scale: 1.2;">
-                        <button class="qty-btn" onclick="updateQty(${dish.id}, -1, event)">-</button>
-                        <span class="qty-number" id="qty-${dish.id}">${qty}</span>
-                        <button class="qty-btn" onclick="updateQty(${dish.id}, 1, event)">+</button>
-                    </div>
-                </div>
-            `;
-            document.getElementById('lightboxModal').classList.add('active');
-        }
-
-        function closeLightbox() { document.getElementById('lightboxModal').classList.remove('active'); }
-
-        function scrollToSection(catId) {
-            const section = document.getElementById(`sec-${catId}`);
-            if (section) {
-                const y = section.getBoundingClientRect().top + window.pageYOffset - 120;
-                window.scrollTo({ top: y, behavior: 'smooth' });
-            }
-        }
-
-        function handleSearch() {
-            const query = document.getElementById('searchInput').value.trim().toLowerCase();
-            if (query === '') { renderAllSections(); return; }
-            const filtered = menuData.filter(dish => dish.name.toLowerCase().includes(query) || dish.desc.toLowerCase().includes(query));
-            renderAllSections(filtered);
-        }
-
-        function setOrderType(type) {
-            selectedOrderType = type;
-            document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`btn-${type}`).classList.add('active');
-
-            const deliveryGroup = document.getElementById('deliveryGroup');
-            const tableLabel = document.getElementById('tableLabel');
-            const tableNameInput = document.getElementById('tableName');
-
-            if (type === 'delivery') {
-                deliveryGroup.style.display = 'block';
-                tableLabel.innerText = "العنوان الكامل / رقم الهاتف:";
-                tableNameInput.placeholder = "مثال: الحي العصري - قرب جامع الفردوس";
-            } else if (type === 'takeaway') {
-                deliveryGroup.style.display = 'none';
-                tableLabel.innerText = "اسم الزبون / رقم الهاتف:";
-                tableNameInput.placeholder = "مثال: أبا الفضل / سفري";
-            } else {
-                deliveryGroup.style.display = 'none';
-                tableLabel.innerText = "رقم الطاولة:";
-                tableNameInput.placeholder = "مثال: طاولة 5";
-            }
-            updateModalTotal();
-        }
-
-        function openOrderModal() {
-            if (Object.keys(cart).length === 0) { alert('الرجاء اختيار طبق واحد على الأقل!'); return; }
-            document.getElementById('orderModal').classList.add('active');
-            updateModalTotal();
-        }
-
-        function closeOrderModal() { document.getElementById('orderModal').classList.remove('active'); }
-
-        function updateModalTotal() {
-            const container = document.getElementById('modalOrderItems');
-            container.innerHTML = '';
-            let itemsTotal = 0;
-
-            for (const id in cart) {
-                const dish = menuData.find(d => d.id == id);
-                const itemTotal = dish.price * cart[id];
-                itemsTotal += itemTotal;
-                container.innerHTML += `
-                    <div class="order-summary-item">
-                        <span>${dish.name} (x${cart[id]})</span>
-                        <span>${itemTotal.toLocaleString()} د.ع</span>
-                    </div>
-                `;
-            }
-
-            let deliveryFee = 0;
-            if (selectedOrderType === 'delivery') {
-                deliveryFee = parseInt(document.getElementById('deliveryZone').value) || 0;
-                container.innerHTML += `
-                    <div class="order-summary-item" style="color: var(--accent-color); font-weight: bold;">
-                        <span>أجور التوصيل:</span>
-                        <span>+ ${deliveryFee.toLocaleString()} د.ع</span>
-                    </div>
-                `;
-            }
-
-            container.innerHTML += `
-                <div class="order-summary-item" style="font-weight: 900; border-top: 2px solid var(--accent-color); margin-top: 10px; padding-top: 10px;">
-                    <span>المجموع الكلي:</span>
-                    <span style="color: var(--accent-color);">${(itemsTotal + deliveryFee).toLocaleString()} د.ع</span>
-                </div>
-            `;
-        }
-
-        function sendToWhatsApp() {
-            const phoneNumber = "9647723681360";
-            const tableDetails = document.getElementById('tableName').value.trim() || "غير محدد";
-            const orderNotes = document.getElementById('orderNotes').value.trim();
-
-            let typeName = selectedOrderType === 'delivery' ? "توصيل منزل" : (selectedOrderType === 'takeaway' ? "سفري" : "داخل المطعم");
-            let message = `🍽️ *طلب جديد من مطعم سمسمه*\n📌 *نوع الطلب:* ${typeName}\n📍 *التفاصيل:* ${tableDetails}\n----------------------------\n`;
-            
-            let itemsTotal = 0;
-            for (const id in cart) {
-                const dish = menuData.find(d => d.id == id);
-                const itemTotal = dish.price * cart[id];
-                itemsTotal += itemTotal;
-                message += `• ${dish.name} × ${cart[id]} = ${itemTotal.toLocaleString()} د.ع\n`;
-            }
-
-            let deliveryFee = selectedOrderType === 'delivery' ? (parseInt(document.getElementById('deliveryZone').value) || 0) : 0;
-            if (deliveryFee > 0) message += `• *أجور التوصيل:* ${deliveryFee.toLocaleString()} د.ع\n`;
-
-            message += `----------------------------\n💰 *المجموع الكلي:* ${(itemsTotal + deliveryFee).toLocaleString()} د.ع\n`;
-            if (orderNotes) message += `📝 *ملاحظات:* ${orderNotes}\n`;
-
-            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
+        // تبديل الثيم الداكن والفاتح
         function toggleTheme() {
-            const html = document.documentElement;
-            const icon = document.getElementById('themeIcon');
-            if (html.classList.contains('light')) {
-                html.classList.replace('light', 'dark');
-                icon.className = 'fa-solid fa-sun';
+            document.body.classList.toggle('dark');
+            const themeIcon = document.getElementById('themeIcon');
+            if (document.body.classList.contains('dark')) {
+                themeIcon.className = 'fa-solid fa-sun';
             } else {
-                html.classList.replace('dark', 'light');
-                icon.className = 'fa-solid fa-moon';
+                themeIcon.className = 'fa-solid fa-moon';
             }
         }
-
-        buildLayout();
-        renderAllSections();
     </script>
 </body>
 </html>
