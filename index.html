@@ -135,133 +135,19 @@
             100% { transform: translate(-80px, -80px); }
         }
 
+        /* --- الهيدر الكبيرة والمدمجة بكسوة غلاف كاملاً --- */
         header {
-            background: var(--bg-nav);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 2px solid var(--border-color);
-            padding: 10px 15px;
-        }
-
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .menu-drawer-btn {
-            background: var(--bg-card);
-            border: 1.5px solid var(--border-color);
-            color: var(--accent-color);
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        /* تكبير اللوجو وتوضيحه */
-        .logo-icon {
-            width: 58px;
-            height: 58px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 24px;
-            box-shadow: 0 0 15px var(--accent-glow);
-            overflow: hidden;
-            border: 2.5px solid var(--accent-color);
-            flex-shrink: 0;
-            cursor: pointer;
-        }
-
-        .logo-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* تغيير خط اسم المطعم إلى خط الرقعة */
-        .brand-title h1 {
-            font-family: 'Aref Ruqaa', serif;
-            font-size: 1.85rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            line-height: 1.1;
-            letter-spacing: 0.5px;
-        }
-
-        .brand-title p {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            font-weight: 700;
-        }
-
-        .controls {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .theme-toggle-btn, .admin-secret-btn {
-            background: var(--bg-card);
-            border: 1.5px solid var(--border-color);
-            color: var(--accent-color);
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
-        }
-
-        /* زر الإدارة المخفي المصمم بشكل تمويهي خفيف */
-        .admin-secret-btn {
-            opacity: 0.3;
-            transition: opacity 0.3s ease;
-        }
-
-        .admin-secret-btn:hover {
-            opacity: 1;
-        }
-
-        .hero-banner {
-            max-width: 800px;
-            margin: 10px auto 0 auto;
-            padding: 0 12px;
-        }
-
-        .hero-card {
             position: relative;
-            height: 180px;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 2px solid var(--border-color);
-            box-shadow: var(--shadow);
+            min-height: 260px;
             display: flex;
-            align-items: flex-end;
-            padding: 16px;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            border-bottom: 3px solid var(--accent-color);
+            box-shadow: var(--shadow);
         }
 
-        .hero-img {
+        .header-bg-img {
             position: absolute;
             top: 0;
             left: 0;
@@ -272,49 +158,103 @@
             animation: slowZoom 20s infinite alternate ease-in-out;
         }
 
-        @keyframes slowZoom {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.08); }
-        }
-
-        .hero-overlay {
+        .header-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.1) 100%);
+            background: linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.85) 100%);
             z-index: 2;
         }
 
-        .hero-content {
+        .header-top-bar {
             position: relative;
             z-index: 3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .menu-drawer-btn, .theme-toggle-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
             color: #ffffff;
-        }
-
-        .hero-badge {
-            background: var(--accent-color);
-            color: #fff;
-            font-size: 0.68rem;
-            font-weight: 800;
-            padding: 3px 10px;
+            width: 42px;
+            height: 42px;
             border-radius: 12px;
-            display: inline-block;
-            margin-bottom: 6px;
-            box-shadow: 0 2px 8px var(--accent-glow);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            backdrop-filter: blur(8px);
         }
 
-        .hero-title {
-            font-size: 1.25rem;
-            font-weight: 900;
-            line-height: 1.2;
-            margin-bottom: 2px;
+        .header-hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 20px 20px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
-        .hero-subtitle {
-            font-size: 0.78rem;
-            opacity: 0.9;
+        /* تكبير اللوجو وتوضيحه أمام الغلاف */
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 32px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 3px solid #ffffff;
+            flex-shrink: 0;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* تغيير خط اسم المطعم وتنسيقه فوق الغلاف */
+        .brand-title {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .brand-title h1 {
+            font-family: 'Aref Ruqaa', serif;
+            font-size: 2.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.1;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+        }
+
+        .brand-title p {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.8);
+        }
+
+        @keyframes slowZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.08); }
         }
 
         .sidebar-overlay {
@@ -422,7 +362,7 @@
 
         .info-bar {
             max-width: 800px;
-            margin: 10px auto 5px auto;
+            margin: 15px auto 5px auto;
             padding: 0 12px;
             display: flex;
             justify-content: space-between;
@@ -501,7 +441,7 @@
 
         .categories-container {
             position: sticky;
-            top: 63px;
+            top: 0;
             z-index: 90;
             background: var(--bg-nav);
             backdrop-filter: blur(8px);
@@ -601,7 +541,6 @@
 
         @media (min-width: 600px) {
             .menu-container { grid-template-columns: repeat(3, 1fr); }
-            .hero-card { height: 220px; }
         }
 
         .dish-card {
@@ -1081,55 +1020,41 @@
         </div>
     </div>
 
-    <!-- الهيدر الرئيسي -->
+    <!-- الهيدر المكبر مع صورة الغلاف واللوجو والاسم -->
     <header>
-        <div class="header-top">
-            <div class="brand">
-                <button class="menu-drawer-btn" onclick="toggleSidebar()" title="أقسام المنيو">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-                <div class="logo-icon" id="mainLogo" title="مطعم سمسمه" onclick="openAdminModal()">
-                    <img src="IMG_2408.jpeg" alt="لوجو مطعم سمسمه" onerror="this.style.display='none'">
-                    <i class="fa-solid fa-utensils"></i>
-                </div>
-                <div class="brand-title">
-                    <h1>مطعم سمسمه</h1>
-                    <p>أشهى المأكولات والمشويات العراقية</p>
-                </div>
-            </div>
-            <div class="controls">
-                <!-- زر مخفي للإدارة سري وفي الترتيب الهادئ -->
-                <button class="admin-secret-btn" onclick="openAdminModal()" title="لوحة التعديل والتحكم">
-                    <i class="fa-solid fa-gear"></i>
-                </button>
-                <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="تغيير النمط">
-                    <i class="fa-solid fa-moon" id="themeIcon"></i>
-                </button>
-            </div>
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=1000&q=80" alt="غلاف مطعم سمسمه" class="header-bg-img">
+        <div class="header-overlay"></div>
+
+        <div class="header-top-bar">
+            <button class="menu-drawer-btn" onclick="toggleSidebar()" title="أقسام المنيو">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="تغيير النمط">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
         </div>
 
-        <div class="info-bar">
-            <a href="https://maps.google.com" target="_blank" class="map-btn">
-                <i class="fa-solid fa-location-dot"></i> الموقع على الخريطة
-            </a>
-            <div class="social-links">
-                <a href="https://t.me/" target="_blank" class="social-btn" title="تلجرام"><i class="fa-brands fa-telegram"></i></a>
-                <a href="https://instagram.com/" target="_blank" class="social-btn" title="انستغرام"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://facebook.com/" target="_blank" class="social-btn" title="فيسبوك"><i class="fa-brands fa-facebook-f"></i></a>
+        <div class="header-hero-content">
+            <div class="logo-icon" id="mainLogo" title="مطعم سمسمه">
+                <img src="IMG_2408.jpeg" alt="لوجو مطعم سمسمه" onerror="this.style.display='none'">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+            <!-- عند النقر على اسم المطعم 10 مرات يتم فتح الإعدادات -->
+            <div class="brand-title" onclick="handleBrandClick()">
+                <h1>مطعم سمسمه</h1>
+                <p>أشهى المأكولات والمشويات العراقية</p>
             </div>
         </div>
     </header>
 
-    <!-- صورة غلاف للموقع (Hero Banner) -->
-    <div class="hero-banner">
-        <div class="hero-card">
-            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=1000&q=80" alt="غلاف مطعم سمسمه" class="hero-img">
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <span class="hero-badge"><i class="fa-solid fa-crown"></i> المذاق العراقي الأصيل</span>
-                <h2 class="hero-title">أهلاً لكم في مطعم سمسمه</h2>
-                <p class="hero-subtitle">استمتع بأطيب المشويات والمأكولات الطازجة يومياً</p>
-            </div>
+    <div class="info-bar">
+        <a href="https://maps.google.com" target="_blank" class="map-btn">
+            <i class="fa-solid fa-location-dot"></i> الموقع على الخريطة
+        </a>
+        <div class="social-links">
+            <a href="https://t.me/" target="_blank" class="social-btn" title="تلجرام"><i class="fa-brands fa-telegram"></i></a>
+            <a href="https://instagram.com/" target="_blank" class="social-btn" title="انستغرام"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://facebook.com/" target="_blank" class="social-btn" title="فيسبوك"><i class="fa-brands fa-facebook-f"></i></a>
         </div>
     </div>
 
@@ -1313,6 +1238,29 @@
             }, 2000);
         });
 
+        /* --- آلية حماية صفحة الإعدادات عبر 10 نقرات متتالية على اسم المطعم --- */
+        let clickCount = 0;
+        let clickTimer;
+
+        function handleBrandClick() {
+            clickCount++;
+            
+            clearTimeout(clickTimer);
+            clickTimer = setTimeout(() => {
+                clickCount = 0; // إعادة تعيين العدّاد بعد ثانيتين إذا توقف النقر
+            }, 2000);
+
+            if (clickCount === 10) {
+                clickCount = 0;
+                const password = prompt("أدخل كلمة مرور المدير للوصول للإعدادات:");
+                if (password === "2007") {
+                    openAdminModal();
+                } else if (password !== null) {
+                    alert("كلمة المرور غير صحيحة!");
+                }
+            }
+        }
+
         const categoriesConfig = [
             { id: "grills", title: "قسم المشويات", icon: "fa-fire-burner" },
             { id: "appetizers", title: "قسم المقبلات", icon: "fa-bowl-food" },
@@ -1346,7 +1294,6 @@
             { id: 28, name: "لبن أربيل بالنعناع", category: "drinks", price: 2000, desc: "لبن خاثر برغوة كثيفة مع لمسة نعناع طازج، منعش ولذيذ مع المشويات.", img: "https://images.unsplash.com/photo-1571006682858-a458b8a69388?w=500&q=80" }
         ];
 
-        // تحميل قائمة الأطباق من الذاكرة المحلية أو إستخدام القائمة الافتراضية
         let menuData = JSON.parse(localStorage.getItem('simsimah_menu')) || defaultMenuData;
 
         let cart = {};
@@ -1525,7 +1472,7 @@
         function scrollToSection(catId) {
             const section = document.getElementById(`sec-${catId}`);
             if (section) {
-                const yOffset = -120;
+                const yOffset = -70;
                 const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
                 window.scrollTo({ top: y, behavior: 'smooth' });
             }
@@ -1536,7 +1483,7 @@
             categoriesConfig.forEach(cat => {
                 const section = document.getElementById(`sec-${cat.id}`);
                 if (section) {
-                    const sectionTop = section.offsetTop - 140;
+                    const sectionTop = section.offsetTop - 100;
                     if (window.pageYOffset >= sectionTop) {
                         current = cat.id;
                     }
