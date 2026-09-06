@@ -15,7 +15,7 @@
     
     <style>
         :root {
-            /* النمط الأبيض (الافتراضي) - باللون الذهبي الملكي */
+            /* النمط الأبيض (الافتراضي) */
             --bg-primary: #ffffff;
             --bg-card: #fafafa;
             --bg-nav: rgba(255, 255, 255, 0.96);
@@ -27,12 +27,11 @@
             --accent-text: #ffffff;
             --border-color: rgba(197, 155, 39, 0.35);
             --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            --card-shadow: 0 6px 20px rgba(197, 155, 39, 0.18);
             --pattern-opacity: 0.03;
         }
 
         .dark {
-            /* النمط الداكن - ذهبي فخم دافئ */
+            /* النمط الداكن */
             --bg-primary: #0a0a0a;
             --bg-card: #141414;
             --bg-nav: rgba(15, 15, 15, 0.95);
@@ -44,7 +43,6 @@
             --accent-text: #000000;
             --border-color: rgba(212, 175, 55, 0.25);
             --shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-            --card-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
             --pattern-opacity: 0.05;
         }
 
@@ -56,9 +54,7 @@
             transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             background-color: var(--bg-primary);
@@ -68,7 +64,7 @@
             position: relative;
         }
 
-        /* 1. خلفية زخرفية ناعمة (Subtle Pattern) */
+        /* خلفية زخرفية ناعمة */
         body::before {
             content: "";
             position: fixed;
@@ -106,6 +102,20 @@
             gap: 10px;
         }
 
+        .menu-drawer-btn {
+            background: var(--bg-card);
+            border: 1.5px solid var(--border-color);
+            color: var(--accent-color);
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
         .logo-icon {
             width: 42px;
             height: 42px;
@@ -140,6 +150,11 @@
             font-weight: 700;
         }
 
+        .controls {
+            display: flex;
+            gap: 8px;
+        }
+
         .theme-toggle-btn {
             background: var(--bg-card);
             border: 1.5px solid var(--border-color);
@@ -152,6 +167,179 @@
             align-items: center;
             justify-content: center;
             font-size: 15px;
+        }
+
+        /* 1. صورة غلاف للموقع (Hero Banner) */
+        .hero-banner {
+            max-width: 800px;
+            margin: 10px auto 0 auto;
+            padding: 0 12px;
+        }
+
+        .hero-card {
+            position: relative;
+            height: 180px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: flex-end;
+            padding: 16px;
+        }
+
+        .hero-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.1) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            color: #ffffff;
+        }
+
+        .hero-badge {
+            background: var(--accent-color);
+            color: #fff;
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 6px;
+            box-shadow: 0 2px 8px var(--accent-glow);
+        }
+
+        .hero-title {
+            font-size: 1.25rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 2px;
+        }
+
+        .hero-subtitle {
+            font-size: 0.78rem;
+            opacity: 0.9;
+        }
+
+        /* 2. قائمة جانبية للأقسام (Sidebar Drawer) */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .sidebar-drawer {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            height: 100%;
+            background: var(--bg-card);
+            border-left: 2px solid var(--accent-color);
+            z-index: 201;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.2);
+        }
+
+        .sidebar-drawer.active {
+            right: 0;
+        }
+
+        .sidebar-header {
+            padding: 18px 15px;
+            background: var(--bg-nav);
+            border-bottom: 1.5px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.05rem;
+            font-weight: 900;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .close-sidebar-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .sidebar-menu-list {
+            list-style: none;
+            padding: 12px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .sidebar-menu-item {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-menu-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            background: var(--bg-primary);
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.88rem;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-menu-link:hover, .sidebar-menu-link.active {
+            background: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
+            transform: translateX(-4px);
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .sidebar-menu-link i.cat-icon {
+            font-size: 1.1rem;
+            margin-left: 10px;
         }
 
         .info-bar {
@@ -253,9 +441,7 @@
             scrollbar-width: none;
         }
 
-        .categories-tabs::-webkit-scrollbar {
-            display: none;
-        }
+        .categories-tabs::-webkit-scrollbar { display: none; }
 
         .tab-btn {
             background: var(--bg-card);
@@ -331,12 +517,10 @@
         }
 
         @media (min-width: 600px) {
-            .menu-container {
-                grid-template-columns: repeat(3, 1fr);
-            }
+            .menu-container { grid-template-columns: repeat(3, 1fr); }
+            .hero-card { height: 220px; }
         }
 
-        /* 3. بطاقات الأطباق الهوائية (Hover Card Effects) */
         .dish-card {
             background: var(--bg-card);
             border: 1.5px solid var(--border-color);
@@ -367,9 +551,7 @@
             transition: transform 0.4s ease;
         }
 
-        .dish-card:hover .dish-img {
-            transform: scale(1.05);
-        }
+        .dish-card:hover .dish-img { transform: scale(1.05); }
 
         .img-overlay-icon {
             position: absolute;
@@ -518,16 +700,8 @@
             justify-content: center;
         }
 
-        .cart-total-title {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-
-        .cart-total-price {
-            font-size: 0.9rem;
-            font-weight: 900;
-            color: var(--accent-color);
-        }
+        .cart-total-title { font-size: 0.7rem; color: var(--text-muted); }
+        .cart-total-price { font-size: 0.9rem; font-weight: 900; color: var(--accent-color); }
 
         .send-order-btn {
             background: #25d366;
@@ -544,7 +718,7 @@
             box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
         }
 
-        /* Modal Overlay العام */
+        /* Modals */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -560,9 +734,7 @@
             padding: 15px;
         }
 
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-overlay.active { display: flex; }
 
         .modal-content {
             background: var(--bg-card);
@@ -594,11 +766,7 @@
             cursor: pointer;
         }
 
-        /* 2. نافذة تكبير الصورة (Image Lightbox Modal) */
-        .lightbox-card {
-            text-align: center;
-        }
-
+        .lightbox-card { text-align: center; }
         .lightbox-img {
             width: 100%;
             max-height: 240px;
@@ -609,25 +777,9 @@
             box-shadow: 0 4px 15px var(--accent-glow);
         }
 
-        .lightbox-title {
-            font-size: 1.1rem;
-            font-weight: 900;
-            margin-bottom: 6px;
-        }
-
-        .lightbox-desc {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-            margin-bottom: 12px;
-        }
-
-        .lightbox-price {
-            font-size: 1.1rem;
-            font-weight: 900;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-        }
+        .lightbox-title { font-size: 1.1rem; font-weight: 900; margin-bottom: 6px; }
+        .lightbox-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 12px; }
+        .lightbox-price { font-size: 1.1rem; font-weight: 900; color: var(--accent-color); margin-bottom: 15px; }
 
         .order-summary-item {
             display: flex;
@@ -637,12 +789,7 @@
             font-size: 0.82rem;
         }
 
-        .order-type-selector {
-            display: flex;
-            gap: 6px;
-            margin-top: 10px;
-        }
-
+        .order-type-selector { display: flex; gap: 6px; margin-top: 10px; }
         .type-btn {
             flex: 1;
             padding: 8px;
@@ -666,17 +813,8 @@
             font-weight: 800;
         }
 
-        .input-group {
-            margin-top: 10px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
+        .input-group { margin-top: 10px; }
+        .input-group label { display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 4px; }
         .input-group input, .input-group select, .input-group textarea {
             width: 100%;
             padding: 8px 10px;
@@ -708,10 +846,14 @@
 </head>
 <body>
 
-    <!-- الهيدر -->
+    <!-- الهيدر الرئيسي -->
     <header>
         <div class="header-top">
             <div class="brand">
+                <!-- زر فتح القائمة الجانبية -->
+                <button class="menu-drawer-btn" onclick="toggleSidebar()" title="أقسام المنيو">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
                 <div class="logo-icon">
                     <img src="IMG_2408.jpeg" alt="لوجو مطعم سمسمه" onerror="this.style.display='none'">
                     <i class="fa-solid fa-utensils"></i>
@@ -730,8 +872,7 @@
 
         <div class="info-bar">
             <a href="https://maps.google.com" target="_blank" class="map-btn">
-                <i class="fa-solid fa-location-dot"></i>
-                الموقع على الخريطة
+                <i class="fa-solid fa-location-dot"></i> الموقع على الخريطة
             </a>
             <div class="social-links">
                 <a href="https://t.me/" target="_blank" class="social-btn" title="تلجرام"><i class="fa-brands fa-telegram"></i></a>
@@ -740,6 +881,31 @@
             </div>
         </div>
     </header>
+
+    <!-- 1. صوره غلاف للموقع (Hero Banner) -->
+    <div class="hero-banner">
+        <div class="hero-card">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=1000&q=80" alt="غلاف مطعم سمسمه" class="hero-img">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <span class="hero-badge"><i class="fa-solid fa-crown"></i> المذاق العراقي الأصيل</span>
+                <h2 class="hero-title">أهلاً بكم في مطعم سمسمه</h2>
+                <p class="hero-subtitle">استمتع بأطيب المشويات والمأكولات الطازجة يومياً</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. القائمة الجانبية لسامي الأقسام (Sidebar Drawer) -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+    <div class="sidebar-drawer" id="sidebarDrawer">
+        <div class="sidebar-header">
+            <h3><i class="fa-solid fa-list-ul"></i> أقسام قائمة الطعام</h3>
+            <button class="close-sidebar-btn" onclick="closeSidebar()">&times;</button>
+        </div>
+        <ul class="sidebar-menu-list" id="sidebarMenuList">
+            <!-- تتولد ديناميكياً من السكريبت -->
+        </ul>
+    </div>
 
     <!-- حقل البحث السريع -->
     <div class="search-container">
@@ -774,7 +940,7 @@
         </button>
     </div>
 
-    <!-- 2. نافذة تكبير صورة الطبق (Lightbox Modal) -->
+    <!-- نافذة تكبير الصورة (Lightbox Modal) -->
     <div class="modal-overlay" id="lightboxModal">
         <div class="modal-content lightbox-card">
             <div class="modal-header">
@@ -799,7 +965,6 @@
             
             <div id="modalOrderItems"></div>
 
-            <!-- تحديد نوع الطلب -->
             <div class="input-group">
                 <label>نوع الطلب:</label>
                 <div class="order-type-selector">
@@ -815,7 +980,6 @@
                 </div>
             </div>
 
-            <!-- حقل التوصيل الديناميكي -->
             <div class="input-group" id="deliveryGroup" style="display: none;">
                 <label for="deliveryZone">منطقة التوصيل:</label>
                 <select id="deliveryZone" onchange="updateModalTotal()">
@@ -859,56 +1023,49 @@
             { id: 3, name: "شيش طاووق دجاج", category: "grills", price: 12000, desc: "صدور دجاج متبلة بخلطة الليمون والزبادي والبهارات المقرمشة، مشوية حتى الكمال.", img: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=500&q=80" },
             { id: 4, name: "مشكل سمسمه الخاص", category: "grills", price: 25000, desc: "وجبة ملكية مشكلة تحتوي على كباب لحم، تكه، شيش طاووق مع الخضار والمقبلات والخبز.", img: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=500&q=80" },
             { id: 5, name: "كباب دجاج بالفرن", category: "grills", price: 11000, desc: "شيش كباب دجاج مفروم طازج محضر خصيصاً مع الخضار والتوابل الشهية.", img: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&q=80" },
-            { id: 6, name: "ريش غنم مشوية", category: "grills", price: 18000, desc: "أضلاع الغنم التندر المشوية على الجمر مع صوص الثوم والخبز المتبل.", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80" },
 
             // --- المقبلات ---
             { id: 9, name: "حمص بطحينة باللحم", category: "appetizers", price: 5000, desc: "حمص ناعم كريمي مع الطحينة وزيت الزيتون البكر ومزين بقطع اللحم المحمر.", img: "https://images.unsplash.com/photo-1577906096429-f73c2c312435?w=500&q=80" },
             { id: 10, name: "متبل باذنجان مشوي", category: "appetizers", price: 4000, desc: "باذنجان مشوي على الفحم مهروس مع الطحينة والثوم ودبس الرمان والرمان الطازج.", img: "https://images.unsplash.com/photo-1541518763669-27fef04b14e8?w=500&q=80" },
             { id: 11, name: "تبولة لبنانية", category: "appetizers", price: 4000, desc: "بقدونس طازج مفروم ناعم مع البرغل والنعناع والطماطم والتتبيلة الحامضة.", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=80" },
-            { id: 12, name: "فتوش بالمحمّص", category: "appetizers", price: 4000, desc: "خضار متنوعة مع الخبز الذهبي المحمص وسماق ودبس الرمان الفاخر.", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&q=80" },
 
             // --- الحلويات ---
             { id: 16, name: "كنافة بالجبنة النابلسية", category: "desserts", price: 6000, desc: "كنافة ساخنة هشة بالجبنة النابلسية الذائبة ومغشاة بالقطر والفستق الحلبي.", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=500&q=80" },
             { id: 17, name: "بقلاوة مشكلة بالفستق", category: "desserts", price: 7000, desc: "قطع بقلاوة هشة ذهبية محشوة بالفستق الحلبي الفاخر والقطر المعطر.", img: "https://images.unsplash.com/photo-1519676867240-f03562e64548?w=500&q=80" },
-            { id: 18, name: "كيك الشوكولاتة الذائبة (مولتن)", category: "desserts", price: 6500, desc: "كيك شوكولاتة ساخن محشو بالشوكولاتة الفاخرة الذائبة ينفجر بالنكهة.", img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500&q=80" },
 
             // --- الآيس كريم ---
             { id: 22, name: "آيس كريم صنداي الفراولة", category: "icecream", price: 4000, desc: "كاسات آيس كريم فانيليا غنية مع صوص وقطع الفراولة الطبيعية.", img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&q=80" },
-            { id: 23, name: "آيس كريم الفستق والزعفران", category: "icecream", price: 5000, desc: "آيس كريم شرقي مصنوع يدوياً من الفستق والزعفران الطبيعي.", img: "https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=500&q=80" },
 
             // --- المشروبات ---
             { id: 27, name: "عصير برتقال طبيعي", category: "drinks", price: 3000, desc: "برتقال طازج معصور فورياً بدون إضافة سكر أو مواد حافظة.", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=500&q=80" },
-            { id: 28, name: "لبن أربيل بالنعناع", category: "drinks", price: 2000, desc: "لبن خاثر برغوة كثيفة مع لمسة نعناع طازج، منعش ولذيذ مع المشويات.", img: "https://images.unsplash.com/photo-1571006682858-a458b8a69388?w=500&q=80" },
-            { id: 29, name: "موهيتو سمسمه الخاص", category: "drinks", price: 4000, desc: "شراب الليمون، النعناع الأخضر، والصودا الباردة لإنتعاش لا يقاوم.", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80" }
+            { id: 28, name: "لبن أربيل بالنعناع", category: "drinks", price: 2000, desc: "لبن خاثر برغوة كثيفة مع لمسة نعناع طازج، منعش ولذيذ مع المشويات.", img: "https://images.unsplash.com/photo-1571006682858-a458b8a69388?w=500&q=80" }
         ];
 
         let cart = {};
         let selectedOrderType = 'dinein';
 
-        async function fetchMenuFromGoogleSheets() {
-            if (!GOOGLE_SHEETS_JSON_URL) return;
-            try {
-                const response = await fetch(GOOGLE_SHEETS_JSON_URL);
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data && data.length > 0) {
-                        menuData = data;
-                        renderUI();
-                    }
-                }
-            } catch (err) {
-                console.log("استخدام البيانات المحلية بدلاً من الشيت:", err);
-            }
+        // القائمة الجانبية (Sidebar)
+        function toggleSidebar() {
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+            document.getElementById('sidebarDrawer').classList.toggle('active');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebarOverlay').classList.remove('active');
+            document.getElementById('sidebarDrawer').classList.remove('active');
         }
 
         function buildLayout() {
             const tabsContainer = document.getElementById('categoriesTabs');
+            const sidebarList = document.getElementById('sidebarMenuList');
             const wrapper = document.getElementById('menuWrapper');
             
             tabsContainer.innerHTML = '';
+            sidebarList.innerHTML = '';
             wrapper.innerHTML = '';
 
             categoriesConfig.forEach((cat, index) => {
+                // بناء التبويبات الأفقية
                 const tabBtn = document.createElement('button');
                 tabBtn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
                 tabBtn.id = `tab-${cat.id}`;
@@ -916,6 +1073,18 @@
                 tabBtn.innerHTML = `<i class="fa-solid ${cat.icon}"></i> ${cat.title.replace('قسم ', '')}`;
                 tabsContainer.appendChild(tabBtn);
 
+                // بناء العناصر في القائمة الجانبية
+                const sidebarItem = document.createElement('li');
+                sidebarItem.className = 'sidebar-menu-item';
+                sidebarItem.innerHTML = `
+                    <a href="#sec-${cat.id}" class="sidebar-menu-link" onclick="closeSidebar(); scrollToSection('${cat.id}'); return false;">
+                        <span><i class="fa-solid ${cat.icon} cat-icon"></i> ${cat.title}</span>
+                        <i class="fa-solid fa-chevron-left" style="font-size: 0.75rem; opacity: 0.6;"></i>
+                    </a>
+                `;
+                sidebarList.appendChild(sidebarItem);
+
+                // بناء الأقسام
                 const section = document.createElement('section');
                 section.id = `sec-${cat.id}`;
                 section.innerHTML = `
@@ -973,7 +1142,6 @@
             });
         }
 
-        // 2. دوال نافذة تكبير الصور (Lightbox Modal)
         function openLightbox(dishId) {
             const dish = menuData.find(d => d.id === dishId);
             if (!dish) return;
@@ -1213,7 +1381,6 @@
         }
 
         renderUI();
-        fetchMenuFromGoogleSheets();
     </script>
 </body>
 </html>
