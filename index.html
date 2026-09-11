@@ -200,7 +200,12 @@
             width: 100%;
         }
 
-        .menu-drawer-btn, .theme-toggle-btn {
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .menu-drawer-btn, .theme-toggle-btn, .music-toggle-btn {
             background: rgba(255, 255, 255, 0.15);
             border: 1.5px solid rgba(255, 255, 255, 0.3);
             color: #ffffff;
@@ -213,6 +218,11 @@
             justify-content: center;
             font-size: 18px;
             backdrop-filter: blur(8px);
+        }
+
+        .music-toggle-btn.playing {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
         }
 
         .header-hero-content {
@@ -1033,6 +1043,11 @@
 </head>
 <body>
 
+    <!-- عنصر الصوت للموسيقى الخلفية الهادئة -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- شاشة العرض الترحيبي (2 ثانية) -->
     <div id="splash-screen">
         <div class="splash-content">
@@ -1050,9 +1065,14 @@
             <button class="menu-drawer-btn" onclick="toggleSidebar()" title="أقسام المنيو">
                 <i class="fa-solid fa-bars"></i>
             </button>
-            <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="تغيير النمط">
-                <i class="fa-solid fa-moon" id="themeIcon"></i>
-            </button>
+            <div class="header-actions">
+                <button class="music-toggle-btn" id="musicToggle" onclick="toggleMusic()" title="تشغيل/كتم الموسيقى">
+                    <i class="fa-solid fa-volume-xmark" id="musicIcon"></i>
+                </button>
+                <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="تغيير النمط">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
+            </div>
         </div>
 
         <div class="header-hero-content">
@@ -1187,7 +1207,7 @@
         </div>
     </div>
 
-    <!-- نافذة لوحة تحكم الإدارة المخفية (إضافة وتعديل الأطباق والصور والغلاف واللوجو) -->
+    <!-- نافذة لوحة تحكم الإدارة المخفية -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1247,7 +1267,7 @@
                 </button>
             </div>
 
-            <!-- الميزة ١: تبويب تعديل صورة الغلاف واللوجو -->
+            <!-- تبويب تعديل صورة الغلاف واللوجو -->
             <div id="adminHeaderSection" style="display: none;">
                 <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px;">تغيير صورة الغلاف العلوية واللوجو الخاص بالمطعم:</p>
                 
@@ -1278,6 +1298,50 @@
     </div>
 
     <script>
+        // التحكم بالموسيقى وتجاوز سياسة المتصفح
+        let isMusicPlaying = false;
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        const musicIcon = document.getElementById('musicIcon');
+
+        function playMusic() {
+            if (bgMusic && !isMusicPlaying) {
+                bgMusic.volume = 0.25; // مستوى هادئ (25%)
+                bgMusic.play().then(() => {
+                    isMusicPlaying = true;
+                    musicIcon.className = 'fa-solid fa-volume-high';
+                    musicToggle.classList.add('playing');
+                    // إزالة مستمعات الأحداث بعد نجاح التشغيل
+                    document.removeEventListener('click', initAudioOnUserInteraction);
+                    document.removeEventListener('touchstart', initAudioOnUserInteraction);
+                    document.removeEventListener('scroll', initAudioOnUserInteraction);
+                }).catch(() => {
+                    // المتصفح يرفض التشغيل حتى يحصل تفاعل مباشر
+                });
+            }
+        }
+
+        function toggleMusic() {
+            if (!bgMusic) return;
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                isMusicPlaying = false;
+                musicIcon.className = 'fa-solid fa-volume-xmark';
+                musicToggle.classList.remove('playing');
+            } else {
+                playMusic();
+            }
+        }
+
+        function initAudioOnUserInteraction() {
+            playMusic();
+        }
+
+        // تسجيل أحداث التفاعل للبدء التلقائي
+        document.addEventListener('click', initAudioOnUserInteraction);
+        document.addEventListener('touchstart', initAudioOnUserInteraction);
+        document.addEventListener('scroll', initAudioOnUserInteraction);
+
         // إخفاء عرض الترحيب بعد 2 ثانية تلقائياً
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
@@ -1776,7 +1840,6 @@
             }
         }
 
-        /* الميزة ١: إدارات تعديل الغلاف واللوجو */
         function handleHeaderImgUpload(event, type) {
             const file = event.target.files[0];
             if (file) {
