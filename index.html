@@ -1220,6 +1220,8 @@
     </div>
 
     <script>
+        const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbxWcF-w58PN01Nx7-B7C7pukSNoF7C231Hj3CRfxyc3XLoS5Z2U-o2a2QAHMGKmNvZ0/exec';
+
         let isMusicPlaying = false;
         const bgMusic = document.getElementById('bgMusic');
         const musicToggle = document.getElementById('musicToggle');
@@ -1268,6 +1270,7 @@
             }, 2000);
             
             loadHeaderBrandImages();
+            fetchMenuFromSheet();
         });
 
         let clickCount = 0;
@@ -1300,24 +1303,7 @@
             { id: "drinks", title: "قسم المشروبات", icon: "fa-glass-water" }
         ];
 
-        let defaultMenuData = [
-            { id: 1, name: "كباب عراقي فاخر", category: "grills", price: 14000, desc: "لحم غنم بلدي طازج مفروم مع البهارات الخاصة، يطرد على الفحم ويقدم مع الخضار المشوية والخبز الحار.", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80" },
-            { id: 2, name: "تكه لحم غنم", category: "grills", price: 16000, desc: "قطع لحم الغنم الطرية والمتبلة بعناية، مشوية على الفحم لتمنحك النكهة العراقية الأصيلة.", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80" },
-            { id: 3, name: "شيش طاووق دجاج", category: "grills", price: 12000, desc: "صدور دجاج متبلة بخلطة الليمون والزبادي والبهارات المقرمشة، مشوية حتى الكمال.", img: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=500&q=80" },
-            { id: 4, name: "مشكل سمسمه الخاص", category: "grills", price: 25000, desc: "وجبة ملكية مشكلة تحتوي على كباب لحم، تكه، شيش طاووق مع الخضار والمقبلات والخبز.", img: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=500&q=80" },
-            { id: 5, name: "كباب دجاج بالفرن", category: "grills", price: 11000, desc: "شيش كباب دجاج مفروم طازج محضر خصيصاً مع الخضار والتوابل الشهية.", img: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&q=80" },
-            { id: 9, name: "حمص بطحينة باللحم", category: "appetizers", price: 5000, desc: "حمص ناعم كريمي مع الطحينة وزيت الزيتون البكر ومزين بقطع اللحم المحمر.", img: "https://images.unsplash.com/photo-1577906096429-f73c2c312435?w=500&q=80" },
-            { id: 10, name: "متبل باذنجان مشوي", category: "appetizers", price: 4000, desc: "باذنجان مشوي على الفحم مهروس مع الطحينة والثوم ودبس الرمان والرمان الطازج.", img: "https://images.unsplash.com/photo-1541518763669-27fef04b14e8?w=500&q=80" },
-            { id: 11, name: "تبولة لبنانية", category: "appetizers", price: 4000, desc: "بقدونس طازج مفروم ناعم مع البرغل والنعناع والطماطم والتتبيلة الحامضة.", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=80" },
-            { id: 16, name: "كنافة بالجبنة النابلسية", category: "desserts", price: 6000, desc: "كنافة ساخنة هشة بالجبنة النابلسية الذائبة ومغشاة بالقطر والفستق الحلبي.", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=500&q=80" },
-            { id: 17, name: "بقلاوة مشكلة بالفستق", category: "desserts", price: 7000, desc: "قطع بقلاوة هشة ذهبية محشوة بالفستق الحلبي الفاخر والقطر المعطر.", img: "https://images.unsplash.com/photo-1519676867240-f03562e64548?w=500&q=80" },
-            { id: 22, name: "آيس كريم صنداي الفراولة", category: "icecream", price: 4000, desc: "كاسات آيس كريم فانيليا غنية مع صوص وقطع الفراولة الطبيعية.", img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&q=80" },
-            { id: 27, name: "عصير برتقال طبيعي", category: "drinks", price: 3000, desc: "برتقال طازج معصور فورياً بدون إضافة سكر أو مواد حافظة.", img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=500&q=80" },
-            { id: 28, name: "لبن أربيل بالنعناع", category: "drinks", price: 2000, desc: "لبن خاثر برغوة كثيفة مع لمسة نعناع طازج، منعش ولذيذ مع المشويات.", img: "https://images.unsplash.com/photo-1571006682858-a458b8a69388?w=500&q=80" }
-        ];
-
-        let menuData = JSON.parse(localStorage.getItem('simsimah_menu')) || defaultMenuData;
-
+        let menuData = [];
         let cart = {};
         let selectedOrderType = 'dinein';
         let scrollObserver;
@@ -1325,6 +1311,25 @@
 
         let tempCoverImg = "";
         let tempLogoImg = "";
+
+        function fetchMenuFromSheet() {
+            fetch(googleScriptUrl + '?action=getMenu')
+                .then(response => response.json())
+                .then(data => {
+                    if (Array.isArray(data) && data.length > 0) {
+                        menuData = data.map((item, idx) => ({
+                            id: item.id || (idx + 1),
+                            name: item.name || '',
+                            category: item.category || 'grills',
+                            price: parseFloat(item.price) || 0,
+                            desc: item.desc || '',
+                            img: item.img || 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80'
+                        }));
+                        renderUI();
+                    }
+                })
+                .catch(err => console.error('Error fetching menu:', err));
+        }
 
         function toggleSidebar() {
             document.getElementById('sidebarOverlay').classList.toggle('active');
@@ -1705,8 +1710,6 @@
                 notes: orderNotes || 'لا يوجد'
             };
 
-            const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbxWcF-w58PN01Nx7-B7C7pukSNoF7C231Hj3CRfxyc3XLoS5Z2U-o2a2QAHMGKmNvZ0/exec';
-
             fetch(googleScriptUrl, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -1857,7 +1860,6 @@
             };
 
             menuData.push(newDish);
-            localStorage.setItem('simsimah_menu', JSON.stringify(menuData));
 
             document.getElementById('newDishName').value = '';
             document.getElementById('newDishPrice').value = '';
@@ -1897,7 +1899,6 @@
                 }
             });
 
-            localStorage.setItem('simsimah_menu', JSON.stringify(menuData));
             renderAllSections();
             alert("تم حفظ جميع التعديلات بنجاح!");
             closeAdminModal();
@@ -1907,7 +1908,6 @@
             if (confirm("هل أنت تأكد من رغبتك في حذف هذا الطبق؟")) {
                 menuData = menuData.filter(d => d.id !== dishId);
                 delete cart[dishId];
-                localStorage.setItem('simsimah_menu', JSON.stringify(menuData));
                 renderAdminDishesList();
                 renderAllSections();
                 updateCartBar();
@@ -1918,8 +1918,6 @@
             buildLayout();
             renderAllSections();
         }
-
-        renderUI();
     </script>
 </body>
 </html>
